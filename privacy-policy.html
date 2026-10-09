@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Policy — NOVA</title>
+<meta name="description" content="NOVA Discord bot — Privacy Policy.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0A0C;--bg2:#121214;--line:rgba(236,231,217,.14);--lime:#ECE7D9;--muted:#9B9B9F;--muted2:#6E6E73;--text:#F2F1EC}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Instrument Sans",sans-serif;line-height:1.7;overflow-x:hidden}
+a{color:inherit}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,visibility .6s}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+.loader-line{width:200px;height:1px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:24px;border-radius:999px}
+.loader-bar{height:100%;width:0;background:var(--lime);box-shadow:0 0 16px var(--lime);animation:load 1.3s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes load{to{width:100%}}
+.loader-logo{font-family:"Fraunces",serif;font-size:38px;letter-spacing:-.05em;color:var(--lime)}
+
+/* nav */
+.nav{max-width:900px;margin:14px auto;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;background:rgba(18,18,21,.84);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:12px}
+.nav-brand{display:flex;align-items:center;gap:8px;padding:7px 6px}
+.nav-avatar{width:24px;height:24px;border-radius:7px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:#0a0a0a;transition:transform .35s cubic-bezier(.2,1,.3,1)}
+.nav-avatar:hover{transform:perspective(300px) rotateY(18deg) rotateX(6deg)}
+.nav-brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.14em;font-size:13px}
+.nav a{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;color:#CFCFD4;padding:7px 10px;border-radius:7px;transition:.2s}
+.nav a:hover{color:var(--text)}
+.nav a.active{background:var(--lime);color:#0A0A0C}
+.lang{border:1px solid rgba(255,255,255,.12);border-radius:8px;overflow:hidden;display:flex}
+.lang button{font-family:"JetBrains Mono",monospace;font-size:12px;padding:6px 10px;border:0;background:transparent;color:#9B9B9F;cursor:pointer}
+.lang button.on{background:var(--lime);color:#0A0A0C;font-weight:700}
+.invite-btn{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:800;letter-spacing:.04em;padding:7px 12px;background:var(--lime);color:#0A0A0C;border-radius:8px}
+
+.wrap{max-width:900px;margin:18px auto;padding:0 18px 10px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;transition:transform .4s cubic-bezier(.2,1,.3,1)}
+h1{font-family:"Fraunces",serif;letter-spacing:-.04em;margin:6px 0 8px;font-size:34px}
+h2{font-size:16px;margin:22px 0 8px;color:var(--lime);font-family:"JetBrains Mono",monospace;letter-spacing:.06em}
+p,li{color:#CFCFD4;font-size:14px}
+ul{padding-left:18px}
+a{color:#EDEDE8}
+.badge{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:11px;background:rgba(236,231,217,.12);border:1px solid rgba(236,231,217,.18);padding:6px 10px;border-radius:999px;color:var(--lime);transition:transform .3s ease}
+.badge:hover{transform:perspective(300px) rotateX(10deg) rotateY(-10deg) translateY(-1px)}
+.doc-section{margin-bottom:4px}
+
+/* reveal (3D scroll-in) */
+.reveal{opacity:0;transform:perspective(900px) translateY(18px) rotateX(5deg);transform-origin:50% 100%;transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* footer */
+.site-footer{max-width:900px;margin:40px auto 0;padding:34px 18px 24px}
+.footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:24px}
+.footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.footer-avatar{width:28px;height:28px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:#0a0a0a}
+.footer-brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.1em;font-size:14px}
+.footer-brand p{color:var(--muted2);font-size:12.5px;line-height:1.6;max-width:220px;margin:0}
+.footer-head{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;color:var(--lime);margin-bottom:12px}
+.footer-col a{display:block;color:#CFCFD4;font-size:13px;margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:26px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07);color:var(--muted2);font-family:"JetBrains Mono",monospace;font-size:11px}
+
+@media(max-width:700px){.footer-top{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.footer-top{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-logo">NOVA</div>
+  <div class="mono" style="font-size:10px;letter-spacing:.2em;color:#9B9B9F;margin-top:8px">PRIVACY POLICY</div>
+  <div class="loader-line"><div class="loader-bar"></div></div>
+</div>
+
+<div class="nav">
+  <div style="display:flex;gap:4px;align-items:center">
+    <a href="index.html" class="nav-brand"><img class="nav-avatar" id="navAvatar" alt="NOVA" onerror="this.src='favicon.svg'" src="avatar.svg"><b>NOVA</b></a>
+    <a href="index.html" data-i="n_home">HOME</a>
+    <a href="terms-of-service.html">TERMS</a>
+    <a href="privacy-policy.html" class="active">PRIVACY</a>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <div class="lang"><button id="btnVI">VI</button><button id="btnEN" class="on">EN</button></div>
+    <a class="invite-btn" href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank" rel="noopener" data-i="n_invite">INVITE NOVA</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="card reveal">
+    <div class="mono" style="font-size:10px;letter-spacing:.16em;color:var(--lime)">NOVA — PRIVACY POLICY</div>
+    <h1 data-i="title">Privacy Policy</h1>
+    <div class="badge mono" data-i="eff">Effective from: 07/10/2026</div>
+    <p data-i="intro">This document explains how NOVA collects, uses, stores and protects data.</p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h1">1. Data We Collect</h2>
+    <ul data-i="l1"></ul>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h2">2. How We Use Data</h2>
+    <ul data-i="l2"></ul>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h3">3. Data Sharing</h2>
+    <p data-i="p3"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h4">4. Storage &amp; Security</h2>
+    <ul data-i="l4"></ul>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h5">5. Your Rights</h2>
+    <ul data-i="l5"></ul>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h6">6. Children</h2>
+    <p data-i="p6"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h7">7. Changes to This Policy</h2>
+    <p data-i="p7"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h8">8. Contact</h2>
+    <p data-i="p8"></p>
+    <p class="mono" style="font-size:11px;color:var(--muted2);margin-top:14px" data-i="legal_note">© 2026 NOVA. This document is for informational purposes only and does not constitute legal advice.</p>
+  </div>
+</div>
+
+<footer class="site-footer reveal">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-row"><img class="footer-avatar" id="footerAvatar" alt="NOVA" onerror="this.src='favicon.svg'" src="avatar.svg"><b>NOVA</b></div>
+      <p data-i="f_tagline">AI, security and community tools for Discord.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_navigate">NAVIGATE</div>
+      <a href="index.html" data-i="f_home">Home</a>
+      <a href="index.html#features" data-i="f_features">Features</a>
+      <a href="index.html#commands" data-i="f_commands">Commands</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_legal">LEGAL</div>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_contact">CONTACT</div>
+      <a href="mailto:anhbao27072011@gmail.com" data-i="f_email">Email Nova</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-i="f_copy">© 2026 NOVA. Built for Discord.</span>
+    <span><span data-i="effective_s">Effective</span> 07/10/2026</span>
+  </div>
+</footer>
+
+<script>
+let lang=localStorage.getItem('nova_lang')||'en';
+const I={
+ vi:{
+  n_home:"TRANG CHỦ", n_invite:"MỜI NOVA",
+  title:"Chính sách Bảo mật",
+  eff:"Hiệu lực từ: 07/10/2026",
+  intro:"Tài liệu này mô tả cách NOVA (“Bot”, “chúng tôi”) thu thập, sử dụng, lưu trữ và bảo vệ dữ liệu khi bạn mời và sử dụng bot trong server Discord của bạn. Bằng việc sử dụng NOVA, bạn đồng ý với các điều khoản dưới đây.",
+  h1:"1. Dữ liệu chúng tôi thu thập",
+  l1:"<li>Dữ liệu Discord cơ bản: ID người dùng, ID server/kênh, tên hiển thị và avatar khi tương tác với lệnh.</li><li>Nội dung do bạn cung cấp: prompt cho /chat, /image, /upscale, /editimage, /search và cấu hình panel, announcement, event, giveaway.</li><li>Lịch sử hội thoại AI: lưu theo phạm vi cá nhân hoặc kênh (tùy cấu hình /setai, /setsharedhistory) để duy trì ngữ cảnh.</li><li>Log vận hành: lệnh đã thực thi, cấu hình moderation/security, ban zone, whitelist và backup metadata.</li><li>Chúng tôi <b>không</b> thu thập mật khẩu, token hay dữ liệu thanh toán.</li>",
+  h2:"2. Cách chúng tôi sử dụng dữ liệu",
+  l2:"<li>Cung cấp tính năng: trả lời AI, tạo/chỉnh sửa ảnh, tìm kiếm web, war ping, announcement, event/giveaway.</li><li>Thực thi moderation: kiểm tra quyền, whitelist, ngưỡng security, auto-purge 24h trong Ban Zone.</li><li>Cải thiện độ ổn định, chống lạm dụng, spam, raid và phân tích lỗi.</li><li>Không bán dữ liệu; không dùng dữ liệu để quảng cáo bên thứ ba.</li>",
+  h3:"3. Chia sẻ dữ liệu",
+  p3:"Một số tính năng gọi dịch vụ bên ngoài: mô hình AI Qwen cho hội thoại &amp; xử lý ảnh, và công cụ tìm kiếm web cho /search. Chỉ nội dung cần thiết cho yêu cầu mới được gửi tới các dịch vụ này. Chúng tôi không chia sẻ dữ liệu cho mục đích marketing.",
+  h4:"4. Lưu trữ &amp; bảo mật",
+  l4:"<li>Dữ liệu được lưu trữ an toàn, áp dụng kiểm soát truy cập và mã hóa khi truyền tải.</li><li>Lịch sử chat có thể bị xóa bằng /clearchat hoặc khi bạn rời server/xóa cấu hình liên quan.</li><li>Backup server (roles/channels) được lưu theo yêu cầu của quản trị viên và có thể xóa bằng /backup delete.</li>",
+  h5:"5. Quyền của bạn",
+  l5:"<li>Yêu cầu xem/xóa dữ liệu liên quan đến bạn bằng cách liên hệ email bên dưới.</li><li>Gỡ bot khỏi server để ngừng thu thập mới; dữ liệu tồn dư sẽ được xóa theo quy trình lưu trữ.</li><li>Quản trị viên có thể giới hạn phạm vi AI, lịch sử chung và kênh Ban Zone.</li>",
+  h6:"6. Trẻ em",
+  p6:"NOVA tuân thủ Điều khoản Dịch vụ Discord. Người dùng dưới độ tuổi theo quy định của Discord không được sử dụng dịch vụ.",
+  h7:"7. Thay đổi chính sách",
+  p7:"Chúng tôi có thể cập nhật chính sách và sẽ nêu ngày hiệu lực mới ở đầu trang. Việc tiếp tục sử dụng sau cập nhật được xem là chấp thuận.",
+  h8:"8. Liên hệ",
+  p8:'Mọi thắc mắc hoặc yêu cầu về quyền riêng tư, vui lòng liên hệ: <a href="mailto:anhbao27072011@gmail.com">anhbao27072011@gmail.com</a> — Discord: <b>nova_inovation</b> — Invite: <a href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank">discord.com/oauth2/authorize?client_id=1532745879944036523</a>',
+  legal_note:"© 2026 NOVA. Tài liệu này chỉ nhằm mục đích thông tin và không cấu thành tư vấn pháp lý.",
+  f_tagline:"AI, security và công cụ cộng đồng cho Discord.",
+  f_navigate:"ĐIỀU HƯỚNG", f_home:"Trang chủ", f_features:"Tính năng", f_commands:"Lệnh",
+  f_legal:"PHÁP LÝ", f_contact:"LIÊN HỆ", f_email:"Email Nova",
+  f_copy:"© 2026 NOVA. Xây dựng cho Discord.", effective_s:"Hiệu lực"
+ },
+ en:{
+  n_home:"HOME", n_invite:"INVITE NOVA",
+  title:"Privacy Policy",
+  eff:"Effective from: 07/10/2026",
+  intro:"This document explains how NOVA (“the Bot”, “we”) collects, uses, stores and protects data when you invite and use the Bot in your Discord server. By using NOVA, you agree to the terms below.",
+  h1:"1. Data We Collect",
+  l1:"<li>Basic Discord data: user ID, server/channel ID, display name and avatar when you interact with a command.</li><li>Content you provide: prompts for /chat, /image, /upscale, /editimage, /search, and configuration for panels, announcements, events and giveaways.</li><li>AI conversation history: stored per-user or per-channel (depending on your /setai and /setsharedhistory configuration) to maintain context.</li><li>Operational logs: executed commands, moderation/security configuration, Ban Zone settings, whitelist and backup metadata.</li><li>We do <b>not</b> collect passwords, tokens or payment data.</li>",
+  h2:"2. How We Use Data",
+  l2:"<li>Providing features: AI replies, image generation/editing, web search, war ping, announcements, events and giveaways.</li><li>Running moderation: permission checks, whitelist, security thresholds, 24h auto-purge inside Ban Zone.</li><li>Improving stability, and defending against abuse, spam, raids, and diagnosing errors.</li><li>We do not sell data, and we do not use data for third-party advertising.</li>",
+  h3:"3. Data Sharing",
+  p3:"Some features call external services: the Qwen AI model for chat and image processing, and a web search tool for /search. Only the content necessary for the request is sent to these services. We do not share data for marketing purposes.",
+  h4:"4. Storage &amp; Security",
+  l4:"<li>Data is stored securely, with access controls and encryption in transit.</li><li>Chat history can be cleared with /clearchat, or when you leave the server or remove the related configuration.</li><li>Server backups (roles/channels) are stored at the administrator's request and can be deleted with /backup delete.</li>",
+  h5:"5. Your Rights",
+  l5:"<li>Request to view or delete data related to you by contacting the email below.</li><li>Remove the Bot from your server to stop new data collection; remaining data is deleted per our retention process.</li><li>Administrators can limit the scope of AI, shared history, and the Ban Zone channel.</li>",
+  h6:"6. Children",
+  p6:"NOVA follows Discord's Terms of Service. Users under the age required by Discord may not use this service.",
+  h7:"7. Changes to This Policy",
+  p7:"We may update this policy and will note the new effective date at the top of the page. Continued use after an update constitutes acceptance.",
+  h8:"8. Contact",
+  p8:'For any privacy questions or requests, please contact: <a href="mailto:anhbao27072011@gmail.com">anhbao27072011@gmail.com</a> — Discord: <b>nova_inovation</b> — Invite: <a href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank">discord.com/oauth2/authorize?client_id=1532745879944036523</a>',
+  legal_note:"© 2026 NOVA. This document is for informational purposes only and does not constitute legal advice.",
+  f_tagline:"AI, security and community tools for Discord.",
+  f_navigate:"NAVIGATE", f_home:"Home", f_features:"Features", f_commands:"Commands",
+  f_legal:"LEGAL", f_contact:"CONTACT", f_email:"Email Nova",
+  f_copy:"© 2026 NOVA. Built for Discord.", effective_s:"Effective"
+ }
+};
+function apply(){
+ document.getElementById('btnVI').classList.toggle('on',lang==='vi');
+ document.getElementById('btnEN').classList.toggle('on',lang==='en');
+ document.documentElement.lang=lang;
+ document.querySelectorAll('[data-i]').forEach(el=>{
+  const k=el.getAttribute('data-i');
+  if(I[lang]&&I[lang][k]!==undefined) el.innerHTML=I[lang][k];
+ });
+}
+document.getElementById('btnVI').onclick=()=>{lang='vi';localStorage.setItem('nova_lang','vi');apply()};
+document.getElementById('btnEN').onclick=()=>{lang='en';localStorage.setItem('nova_lang','en');apply()};
+apply();
+
+// ----- scroll reveal (3D entrance) -----
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ----- page-load animation -----
+window.addEventListener('load',()=>{
+ setTimeout(()=>{document.getElementById('loader').classList.add('out')},700);
+});
+</script>
+</body>
+</html>

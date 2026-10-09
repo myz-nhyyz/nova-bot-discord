@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NOVA — Discord Bot | AI · War Ping · Moderation · Ban Zone</title>
+<meta name="description" content="NOVA — Discord bot all-in-one: AI Chatbot (Qwen), War Ping / Backup, Announcement, Event & Giveaway, Moderation & Security, Ban Zone.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,800;9..144,1,800&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0C;
+  --bg2:#121214;
+  --card:#15151AF0;
+  --line:rgba(236,231,217,.14);
+  --lime:#ECE7D9;
+  --lime2:#C9C3B2;
+  --muted:#9B9B9F;
+  --muted2:#6E6E73;
+  --text:#F2F1EC;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Instrument Sans",system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.mono{font-family:"JetBrains Mono",monospace}
+.display{font-family:"Fraunces",serif;letter-spacing:-.04em;line-height:.85}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s ease,visibility .7s}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+.loader-line{width:220px;height:1px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:28px;border-radius:999px}
+.loader-bar{height:100%;width:0;background:var(--lime);box-shadow:0 0 18px var(--lime);animation:load 1.6s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes load{to{width:100%}}
+.loader-logo{font-family:"Fraunces",serif;font-size:46px;letter-spacing:-.06em;display:flex;align-items:center;gap:12px}
+.loader-logo span{color:var(--lime)}
+
+/* nav */
+.nav-wrap{position:sticky;top:14px;z-index:50;padding:0 18px}
+.nav{max-width:1240px;margin:0 auto;background:rgba(18,18,21,.84);backdrop-filter:blur(16px) saturate(1.2);border:1px solid rgba(236,231,217,.14);border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:8px 10px 8px 10px;gap:10px}
+.nav-left{display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:32px;height:32px;border-radius:7px;object-fit:cover;background:#0a0a0a;border:1px solid rgba(255,255,255,.08)}
+.brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.14em;font-size:14px}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;color:#CFCFD4;padding:8px 12px;border-radius:7px;transition:.2s}
+.nav-links a.active,.nav-links a:hover{background:var(--lime);color:#0A0A0C}
+.nav-right{display:flex;align-items:center;gap:8px}
+.lang{border:1px solid rgba(255,255,255,.12);border-radius:8px;overflow:hidden;display:flex;background:rgba(255,255,255,.04)}
+.lang button{font-family:"JetBrains Mono",monospace;font-size:12px;padding:7px 12px;border:0;background:transparent;color:#9B9B9F;cursor:pointer;transition:.2s}
+.lang button.on{background:var(--lime);color:#0A0A0C;font-weight:700}
+.btn-lime{background:var(--lime);color:#0A0A0C;font-family:"JetBrains Mono",monospace;font-weight:800;font-size:12px;letter-spacing:.06em;padding:10px 18px;border-radius:8px;border:0;cursor:pointer;box-shadow:0 6px 0 #BBB6A6,0 8px 24px rgba(236,231,217,.25);transition:transform .15s,box-shadow .15s}
+.btn-lime:active{transform:translateY(3px);box-shadow:0 3px 0 #BBB6A6}
+.menu-btn{display:none;background:transparent;border:1px solid rgba(255,255,255,.12);color:#fff;padding:8px 10px;border-radius:8px}
+
+/* hero */
+.hero{max-width:1240px;margin:22px auto 0;padding:18px 18px 0;display:grid;grid-template-columns:1.25fr .85fr;gap:18px}
+.hero-card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:18px;padding:28px;position:relative;overflow:hidden}
+.hero-card::before{content:"";position:absolute;inset:-1px;background:radial-gradient(600px 300px at 20% 0%,rgba(236,231,217,.18),transparent 60%),radial-gradient(700px 400px at 90% 30%,rgba(255,255,255,.05),transparent 60%);pointer-events:none}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.18em;color:var(--lime);opacity:.9}
+.hero h1{font-family:"Fraunces",serif;font-size:clamp(38px,6.2vw,74px);line-height:.88;letter-spacing:-.05em;margin:10px 0 14px}
+.hero h1 em{font-style:italic;color:var(--lime);font-weight:800}
+.hero p{color:var(--muted);line-height:1.65;max-width:560px;font-size:14.5px}
+.hero-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.btn-ghost{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#fff;padding:11px 16px;border-radius:999px;font-family:"JetBrains Mono",monospace;font-size:12px;cursor:pointer}
+.stats{display:flex;gap:18px;margin-top:22px;flex-wrap:wrap}
+.stat{border-left:1px solid var(--lime);padding-left:12px}
+.stat b{font-size:18px;display:block}
+.stat span{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;color:var(--muted2)}
+.hero-visual{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,#121215,#0A0A0C);position:relative;display:flex;flex-direction:column;transition:transform .3s ease;will-change:transform}
+.hero-visual-top{height:220px;position:relative;overflow:hidden;background:radial-gradient(400px 220px at 50% 30%,rgba(236,231,217,.22),transparent 60%),linear-gradient(180deg,rgba(255,255,255,.04),transparent)}
+.avatar-big{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:148px;height:148px;border-radius:20px;overflow:hidden;border:2px solid rgba(255,255,255,.12);box-shadow:0 20px 60px rgba(0,0,0,.6);background:#0a0a0a}
+.avatar-big img{width:100%;height:100%;object-fit:cover}
+.presence{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(10,10,12,.85);border:1px solid rgba(236,231,217,.25);backdrop-filter:blur(10px);border-radius:999px;padding:6px 10px;display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:11px;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e}
+.hero-visual-bottom{padding:16px 16px 14px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mini{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;background:rgba(255,255,255,.03)}
+.mini b{font-size:12px;display:flex;align-items:center;gap:6px}
+.mini span{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted)}
+
+/* help menu */
+.section{max-width:1240px;margin:26px auto 0;padding:0 18px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}
+.section-head h2{font-family:"Fraunces",serif;font-size:28px;letter-spacing:-.04em;margin:0}
+.section-head p{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.06em;max-width:520px;line-height:1.6;margin:0}
+.cards-hint{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 10px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;color:var(--muted2)}
+.cards{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:4px 4px 16px;margin:0 -4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cards::-webkit-scrollbar{display:none}
+.card{flex:0 0 clamp(216px,24vw,266px);scroll-snap-align:start;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;cursor:pointer;position:relative;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s ease;will-change:transform}
+.card:hover{border-color:rgba(236,231,217,.28);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.card::after{content:"";position:absolute;inset:0;background:radial-gradient(400px 200px at 80% 0%,rgba(236,231,217,.12),transparent 60%);opacity:0;transition:.3s}
+.card:hover::after{opacity:1}
+.card-top{display:flex;justify-content:space-between;align-items:start;gap:8px}
+.icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(236,231,217,.12);border:1px solid rgba(236,231,217,.18);font-size:16px;flex-shrink:0}
+.badge{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;background:var(--lime);color:#0A0A0C;padding:4px 7px;border-radius:999px;font-weight:800}
+.card h3{margin:12px 0 6px;font-size:14px;letter-spacing:-.02em}
+.card p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.6;min-height:36px}
+.cmd-preview{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:"JetBrains Mono",monospace;font-size:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:5px 8px;border-radius:999px;color:#D6D6D2}
+.card-foot{margin-top:14px;display:flex;align-items:center;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;color:var(--muted2)}
+.card-foot span:last-child{color:var(--lime)}
+
+/* command deck */
+.deck{border:1px solid var(--line);border-radius:18px;background:rgba(16,16,18,.6);backdrop-filter:blur(10px);overflow:hidden}
+.deck-head{padding:16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.deck-head h2{font-family:"Fraunces",serif;font-size:26px;margin:0;letter-spacing:-.04em}
+.search-wrap{flex:1;min-width:260px;max-width:520px;position:relative}
+.search-wrap input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px 12px 36px;color:#fff;font-family:"JetBrains Mono",monospace;font-size:12px;outline:none}
+.search-wrap input:focus{border-color:rgba(236,231,217,.35);box-shadow:0 0 0 4px rgba(236,231,217,.08)}
+.search-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5;font-style:normal}
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015)}
+.fbtn{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#CFCFD4;cursor:pointer;transition:.2s}
+.fbtn.on{background:var(--lime);color:#0A0A0C;border-color:var(--lime);font-weight:800}
+.deck-grid{padding:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.cmd-row{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px;display:flex;justify-content:space-between;gap:12px;transition:.2s}
+.cmd-row:hover{border-color:rgba(236,231,217,.2);background:rgba(255,255,255,.045)}
+.cmd-row h4{margin:0;font-family:"JetBrains Mono",monospace;font-size:12.5px;color:#EDEDE8}
+.cmd-row h4 small{color:var(--lime);font-weight:800}
+.cmd-row p{margin:6px 0 8px;color:var(--muted);font-size:12px;line-height:1.5}
+.meta{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted2);display:flex;gap:8px;flex-wrap:wrap}
+.tag{border:1px solid rgba(255,255,255,.1);padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.04)}
+.new{color:#0A0A0C;background:var(--lime);border-color:var(--lime);font-weight:800}
+.perm{color:#9B9B9F}
+.view-more{display:flex;justify-content:center;padding:12px}
+.view-more button{border:1px solid rgba(236,231,217,.25);background:rgba(236,231,217,.08);color:var(--lime);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;padding:10px 16px;border-radius:999px;cursor:pointer}
+.empty{padding:28px;text-align:center;color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:12px}
+
+/* modals */
+.overlay{position:fixed;inset:0;background:rgba(5,5,7,.7);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:80;padding:18px}
+.overlay.open{display:flex}
+.modal{width:min(760px,100%);max-height:88vh;overflow:auto;background:linear-gradient(180deg,#17171A,#0D0D0F);border:1px solid rgba(236,231,217,.18);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{from{transform:scale(.94) translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.modal-head{position:sticky;top:0;background:rgba(16,16,18,.92);backdrop-filter:blur(12px);padding:16px 16px 12px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:12px;align-items:start;z-index:1}
+.modal-head h3{margin:2px 0 4px;font-size:18px}
+.modal-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+.x{width:32px;height:32px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;display:grid;place-items:center;flex-shrink:0}
+.modal-body{padding:14px 16px 16px}
+.group{margin-bottom:18px}
+.group h4{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--lime);margin:0 0 10px}
+.cmd{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:12px}
+.cmd code{font-family:"JetBrains Mono",monospace;font-size:12px;color:#EDEDE8}
+.cmd span{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* update log modal small */
+.update-modal{width:min(520px,100%)}
+.update-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+.check{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.check input{accent-color:var(--lime)}
+
+/* footer */
+.site-footer{max-width:1240px;margin:40px auto 0;padding:40px 18px 24px}
+.footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:26px}
+.footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.footer-avatar{width:30px;height:30px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:#0a0a0a}
+.footer-brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.1em;font-size:14px}
+.footer-brand p{color:var(--muted2);font-size:12.5px;line-height:1.6;max-width:230px;margin:0}
+.footer-head{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;color:var(--lime);margin-bottom:12px}
+.footer-col a{display:block;color:#CFCFD4;font-size:13px;margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);color:var(--muted2);font-family:"JetBrains Mono",monospace;font-size:11px}
+
+/* reveal */
+.reveal{opacity:0;transform:perspective(900px) translateY(18px) rotateX(5deg);transform-origin:50% 100%;transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* responsive */
+@media(max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .card{flex-basis:68vw}
+  .deck-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .menu-btn{display:inline-block}
+  .nav.open .nav-links{display:flex;position:absolute;top:58px;left:8px;right:8px;background:rgba(16,16,18,.98);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;flex-wrap:wrap}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .card{flex-basis:82vw}
+  .hero-card{padding:18px}
+  .footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-logo"><span>NOVA</span> <small style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#9B9B9F;margin-top:10px">DISCORD BOT</small></div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#9B9B9F;margin-top:6px">SYNCHRONIZING SYSTEMS — PLEASE WAIT</div>
+  <div class="loader-line"><div class="loader-bar"></div></div>
+</div>
+
+<div class="nav-wrap">
+  <nav class="nav" id="nav">
+    <div class="nav-left">
+      <a class="brand" href="#home"><img id="navAvatar" alt="NOVA"><b>NOVA</b></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#home" data-i="nav_home">TRANG CHỦ</a>
+        <a href="#features" data-i="nav_features">TÍNH NĂNG</a>
+        <a href="#commands" class="active" data-i="nav_cmd">LỆNH</a>
+        <a href="#help">HELP</a>
+        <a href="terms-of-service.html">TERMS</a>
+        <a href="privacy-policy.html">PRIVACY</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="lang"><button id="btnVI">VI</button><button id="btnEN" class="on">EN</button></div>
+      <a class="btn-lime" id="inviteBtn" href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank" rel="noopener">MỜI NOVA</a>
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+  </nav>
+</div>
+
+<section class="hero" id="home">
+  <div class="hero-card reveal">
+    <div class="eyebrow">01 — NOVA DISCORD BOT • SINCE 2026</div>
+    <h1 class="display" data-i="hero_title">VẬN HÀNH<br><em>SERVER</em><br>Ở TẦM CAO<br>MỚI.</h1>
+    <p data-i="hero_desc">NOVA là bot Discord all-in-one được thiết kế cho cộng đồng nghiêm túc: AI đàm thoại (Qwen), War Ping / Backup tinh gọn, Announcement & Event chuyên nghiệp, cùng hệ thống Moderation & Ban Zone với khả năng auto-purge 24h.</p>
+    <div class="hero-actions">
+      <a class="btn-lime" href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank" rel="noopener" data-i="cta_invite">＋ Mời NOVA vào server</a>
+      <a class="btn-ghost" href="#commands" data-i="cta_cmd">Xem lệnh →</a>
+      <a class="btn-ghost" href="https://discord.com/users/nova_inovation" target="_blank" rel="noopener">Discord: nova_inovation</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>8</b><span data-i="s_cat">DANH MỤC</span></div>
+      <div class="stat"><b>70+</b><span>COMMANDS</span></div>
+      <div class="stat"><b>24H</b><span data-i="s_purge">AUTO PURGE</span></div>
+      <div class="stat"><b>QWEN</b><span>AI POWERED</span></div>
+    </div>
+  </div>
+  <div class="hero-visual reveal" style="transition-delay:.08s">
+    <div class="hero-visual-top">
+      <div class="avatar-big"><img id="heroAvatar" alt="NOVA avatar"></div>
+      <div class="presence"><span class="dot"></span><span data-i="presence">NOVA đang hoạt động — Sẵn sàng phục vụ</span></div>
+    </div>
+    <div class="hero-visual-bottom">
+      <div class="mini-grid">
+        <div class="mini"><b>⚡ <span data-i="mini1t">War Ping tức thì</span></b><span data-i="mini1d">Gọi team bằng panel, không cần gõ lệnh.</span></div>
+        <div class="mini"><b>🛡️ <span data-i="mini2t">Ban Zone</span></b><span data-i="mini2d">Kênh auto-ban/mute + xóa 24h tin nhắn.</span></div>
+        <div class="mini"><b>🤖 <span data-i="mini3t">AI Qwen</span></b><span data-i="mini3d">Chat, tạo ảnh, upscale & edit ảnh.</span></div>
+        <div class="mini"><b>📅 <span data-i="mini4t">Event & Giveaway</span></b><span data-i="mini4d">Tạo, quản lý, blacklist & quay thưởng.</span></div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn-ghost" style="flex:1;text-align:center" href="mailto:anhbao27072011@gmail.com">anhbao27072011@gmail.com</a>
+        <a class="btn-ghost" href="privacy-policy.html">Privacy</a>
+        <a class="btn-ghost" href="terms-of-service.html">Terms</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal" id="features">
+  <div class="section-head">
+    <h2 data-i="help_title">Help Menu — Chọn danh mục để xem chi tiết</h2>
+    <p data-i="help_sub">Nhấn vào từng thẻ để phóng to và xem toàn bộ lệnh của nhóm đó. Thiết kế lấy cảm hứng từ command deck trong ảnh bạn gửi.</p>
+  </div>
+  <div class="cards-hint"><span data-i="cards_hint">← Kéo để xem toàn bộ danh mục →</span><span id="cardsCount"></span></div>
+  <div class="cards" id="helpCards"></div>
+</section>
+
+<section class="section reveal" id="commands">
+  <div class="deck">
+    <div class="deck-head">
+      <div>
+        <div class="mono" style="font-size:10px;letter-spacing:.18em;color:var(--lime)">02 — COMMAND DECK</div>
+        <h2 data-i="deck_title">Tìm đúng lệnh, thật nhanh.</h2>
+      </div>
+      <div class="search-wrap"><i>⌕</i><input id="search" placeholder="Tìm lệnh hoặc mô tả..."><div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);margin-top:6px" data-i="deck_hint">Tra cứu command theo nhóm, type và quyền cần thiết.</div></div>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="deck-grid" id="deckGrid"></div>
+    <div class="view-more" id="viewMoreWrap"><button id="viewMoreBtn">Xem thêm ↓</button></div>
+    <div class="empty" id="empty" style="display:none" data-i="empty">Không tìm thấy lệnh phù hợp.</div>
+  </div>
+</section>
+
+<footer class="site-footer reveal">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-row"><img class="footer-avatar" id="footerAvatar" alt="NOVA"><b>NOVA</b></div>
+      <p data-i="f_tagline">AI, security và công cụ cộng đồng cho Discord.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_navigate">NAVIGATE</div>
+      <a href="#home" data-i="f_home">Trang chủ</a>
+      <a href="#features" data-i="f_features">Tính năng</a>
+      <a href="#commands" data-i="f_commands">Lệnh</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_legal">LEGAL</div>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_contact">CONTACT</div>
+      <a href="mailto:anhbao27072011@gmail.com" data-i="f_email">Email Nova</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-i="f_copy">© 2026 NOVA. Built for Discord.</span>
+    <span><span data-i="effective">Hiệu lực</span> 07/10/2026</span>
+  </div>
+</footer>
+
+<!-- Help detail modal -->
+<div class="overlay" id="helpOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="mono" style="font-size:10px;letter-spacing:.14em;color:var(--lime)" id="mEyebrow"></div>
+        <h3 id="mTitle"></h3>
+        <p id="mDesc"></p>
+      </div>
+      <button class="x" onclick="closeHelp()">✕</button>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<!-- Update log -->
+<div class="overlay" id="updateOverlay">
+  <div class="modal update-modal">
+    <div class="modal-head">
+      <div>
+        <div class="mono" style="font-size:10px;letter-spacing:.14em;color:var(--lime)">UPDATE — 07/10/2026</div>
+        <h3>UPDATE-01 — <span data-i="u_title">Lệnh AI mới</span> ✨</h3>
+        <p data-i="u_desc">Hai lệnh hình ảnh mới đã cập bến nhóm AI Chatbot. Thử ngay để tạo và chỉnh sửa ảnh bằng AI.</p>
+      </div>
+      <button class="x" onclick="closeUpdate()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cmd"><code>/upscale <span class="new" style="margin-left:8px;padding:2px 6px;border-radius:999px;font-size:10px">✨ NEW</span></code><span data-i="u1">Upscale và tăng cường ảnh đã tải lên bằng AI</span></div>
+      <div class="cmd"><code>/editimage <span class="new" style="margin-left:8px;padding:2px 6px;border-radius:999px;font-size:10px">✨ NEW</span></code><span data-i="u2">Chỉnh sửa ảnh với preset hoặc instruction tùy ý</span></div>
+      <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted2)">Tip: <span data-i="u_tip">Gõ /upscale kèm file ảnh, hoặc /editimage để biến hóa ảnh theo prompt.</span></div>
+    </div>
+    <div class="update-foot">
+      <label class="check"><input type="checkbox" id="hide24"> <span data-i="hide24">Tắt hiển thị trong 24h</span></label>
+      <button class="btn-lime" onclick="closeUpdate(true)" data-i="close">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ----- i18n -----
+const I18N={
+ vi:{
+  nav_home:"TRANG CHỦ",nav_features:"TÍNH NĂNG",nav_cmd:"LỆNH",
+  hero_title:"VẬN HÀNH<br><em>SERVER</em><br>Ở TẦM CAO<br>MỚI.",
+  hero_desc:"NOVA là bot Discord all-in-one được thiết kế cho cộng đồng nghiêm túc: AI đàm thoại (Qwen), War Ping / Backup tinh gọn, Announcement & Event chuyên nghiệp, cùng hệ thống Moderation & Ban Zone với khả năng auto-purge 24h.",
+  cta_invite:"＋ Mời NOVA vào server",cta_cmd:"Xem lệnh →",
+  presence:"NOVA đang hoạt động — Sẵn sàng phục vụ",
+  mini1t:"War Ping tức thì",mini1d:"Gọi team bằng panel, không cần gõ lệnh.",
+  mini2t:"Ban Zone",mini2d:"Kênh auto-ban/mute + xóa 24h tin nhắn.",
+  mini3t:"AI Qwen",mini3d:"Chat, tạo ảnh, upscale & edit ảnh.",
+  mini4t:"Event & Giveaway",mini4d:"Tạo, quản lý, blacklist & quay thưởng.",
+  help_title:"Help Menu — Chọn danh mục để xem chi tiết",help_sub:"Nhấn vào từng thẻ để phóng to và xem toàn bộ lệnh của nhóm đó. Thiết kế lấy cảm hứng từ command deck trong ảnh bạn gửi.",
+  deck_title:"Tìm đúng lệnh, thật nhanh.",deck_hint:"Tra cứu command theo nhóm, type và quyền cần thiết.",
+  empty:"Không tìm thấy lệnh phù hợp.",
+  effective:"Hiệu lực từ 07/10/2026",close:"Đóng",hide24:"Tắt hiển thị trong 24h",
+  u_title:"Lệnh AI mới",u_desc:"Hai lệnh hình ảnh mới đã cập bến nhóm AI Chatbot. Thử ngay để tạo và chỉnh sửa ảnh bằng AI.",
+  u1:"Upscale và tăng cường ảnh đã tải lên bằng AI",u2:"Chỉnh sửa ảnh với preset hoặc instruction tùy ý",u_tip:"Gõ /upscale kèm file ảnh, hoặc /editimage để biến hóa ảnh theo prompt.",
+  s_cat:"DANH MỤC",s_purge:"AUTO PURGE",
+  cards_hint:"← Kéo để xem toàn bộ danh mục →",
+  f_tagline:"AI, security và công cụ cộng đồng cho Discord.",
+  f_navigate:"ĐIỀU HƯỚNG",f_home:"Trang chủ",f_features:"Tính năng",f_commands:"Lệnh",
+  f_legal:"PHÁP LÝ",f_contact:"LIÊN HỆ",f_email:"Email Nova",
+  f_copy:"© 2026 NOVA. Xây dựng cho Discord."
+ },
+ en:{
+  nav_home:"HOME",nav_features:"FEATURES",nav_cmd:"COMMANDS",
+  hero_title:"RUN YOUR<br><em>SERVER</em><br>AT THE<br>NEXT LEVEL.",
+  hero_desc:"NOVA is an all-in-one Discord bot built for serious communities: conversational AI (Qwen), streamlined War Ping / Backup, professional Announcements & Events, plus a hardened Moderation & Ban Zone system with 24h auto-purge.",
+  cta_invite:"＋ Invite NOVA to your server",cta_cmd:"Browse commands →",
+  presence:"NOVA is online — Ready to serve",
+  mini1t:"Instant War Ping",mini1d:"Call your team from a panel — no command needed.",
+  mini2t:"Ban Zone",mini2d:"Auto-ban/mute channel + 24h message purge.",
+  mini3t:"AI Qwen",mini3d:"Chat, generate, upscale & edit images.",
+  mini4t:"Event & Giveaway",mini4d:"Create, manage, blacklist & draw winners.",
+  help_title:"Help Menu — Pick a category to explore",help_sub:"Click any card to zoom in and see every command in that group. Inspired by the command deck you shared.",
+  deck_title:"Find the right command, fast.",deck_hint:"Search by group, type or required permission.",
+  empty:"No matching commands found.",
+  effective:"Effective from 07/10/2026",close:"Close",hide24:"Don't show for 24h",
+  u_title:"New AI commands",u_desc:"Two new image commands have landed in AI Chatbot. Try them to create and transform images with AI.",
+  u1:"Upscale and enhance an uploaded image with AI",u2:"Edit an uploaded image with presets or a custom instruction",u_tip:"Use /upscale with an image, or /editimage to transform it via prompt.",
+  s_cat:"CATEGORIES",s_purge:"AUTO PURGE",
+  cards_hint:"← Drag to browse every category →",
+  f_tagline:"AI, security and community tools for Discord.",
+  f_navigate:"NAVIGATE",f_home:"Home",f_features:"Features",f_commands:"Commands",
+  f_legal:"LEGAL",f_contact:"CONTACT",f_email:"Email Nova",
+  f_copy:"© 2026 NOVA. Built for Discord."
+ }
+};
+let lang=localStorage.getItem('nova_lang')||'en';
+function applyLang(){
+ document.documentElement.lang=lang;
+ document.querySelectorAll('[data-i]').forEach(el=>{
+  const k=el.getAttribute('data-i');
+  if(I18N[lang][k]) el.innerHTML=I18N[lang][k];
+ });
+ document.getElementById('btnVI').classList.toggle('on',lang==='vi');
+ document.getElementById('btnEN').classList.toggle('on',lang==='en');
+ document.getElementById('search').placeholder= lang==='vi'?"Tìm lệnh hoặc mô tả...":"Search command or description...";
+ document.getElementById('inviteBtn').textContent= lang==='vi'?"MỜI NOVA":"INVITE NOVA";
+ renderHelp(); renderFilters(); renderDeck();
+}
+document.getElementById('btnVI').onclick=()=>{lang='vi';localStorage.setItem('nova_lang','vi');applyLang()};
+document.getElementById('btnEN').onclick=()=>{lang='en';localStorage.setItem('nova_lang','en');applyLang()};
+
+// ----- data -----
+const CATS=[
+ {id:'chatbot',vi:'AI Chatbot',en:'AI Chatbot',icon:'🤖',desc:{vi:'Trò chuyện với AI (Qwen) ngay trong kênh',en:'Chat with AI (Qwen) right in the channel'},count:'8 commands'},
+ {id:'warping',vi:'War Ping / Backup',en:'War Ping / Backup',icon:'🛡️',desc:{vi:'Gọi người vào war hoặc gọi backup',en:'Call people into a war or call for backup'},count:'13 commands'},
+ {id:'announcement',vi:'Announcement',en:'Announcement',icon:'📣',desc:{vi:'Soạn và gửi thông báo / timestamp',en:'Draft and send announcements / timestamps'},count:'4 commands'},
+ {id:'event',vi:'Event & Giveaway',en:'Event & Giveaway',icon:'🎉',desc:{vi:'Tạo và quản lý event & giveaway',en:'Create and manage events & giveaways'},count:'12 commands'},
+ {id:'moderation',vi:'Moderation & Security',en:'Moderation & Security',icon:'⚔️',desc:{vi:'Kick, mute, ban và bảo vệ server',en:'Kick, mute, ban and secure the server'},count:'30+ commands'},
+ {id:'ban',vi:'Ban Zone',en:'Ban Zone',icon:'⛔',desc:{vi:'Kênh auto-ban và whitelist',en:'Auto-ban channel and whitelist'},count:'4 commands'},
+ {id:'language',vi:'Language',en:'Language',icon:'🌐',desc:{vi:'Đổi ngôn ngữ giao diện cá nhân',en:'Set your personal interface language'},count:'1 command'},
+ {id:'others',vi:'Other',en:'Other',icon:'✨',desc:{vi:'Tiện ích và cài đặt cá nhân',en:'Utilities and personal settings'},count:'5 commands'},
+];
+
+const COMMANDS={
+ chatbot:[
+  {cmd:'/chat',desc:{vi:'Trò chuyện với AI (lưu lịch sử cá nhân)',en:'Talk to the AI (maintains personal history)'}},
+  {cmd:'/image',desc:{vi:'Tạo ảnh AI từ prompt văn bản',en:'Generate AI images from text prompts'}},
+  {cmd:'/upscale',desc:{vi:'Upscale và tăng cường ảnh đã tải lên bằng AI',en:'Upscale and enhance an uploaded image with AI'},isNew:true},
+  {cmd:'/editimage',desc:{vi:'Chỉnh sửa ảnh với preset hoặc instruction tùy ý',en:'Edit an uploaded image with presets or a custom instruction'},isNew:true},
+  {cmd:'/clearchat',desc:{vi:'Xóa lịch sử trò chuyện của bạn',en:'Clear your conversation history'}},
+  {cmd:'/setai',desc:{vi:'Bật/tắt chế độ AI channel (Manage Channels)',en:'Enable or disable AI channel mode (Manage Channels)'},perm:'Manage Channels'},
+  {cmd:'/setsharedhistory',desc:{vi:'Bật/tắt lịch sử chat chung (Manage Channels)',en:'Enable or disable shared chat history (Manage Channels)'},perm:'Manage Channels'},
+  {cmd:'/search',desc:{vi:'Tìm kiếm web theo thời gian thực',en:'Search the public web for real-time info'}},
+  {cmd:'/persona',desc:{vi:'Đặt phong cách nói chuyện AI cá nhân',en:'Set your personal AI speaking style'}},
+  {cmd:'/mypersona',desc:{vi:'Xem persona AI hiện tại',en:'View your current AI persona'}},
+  {cmd:'/resetpersona',desc:{vi:'Đặt lại persona về mặc định',en:'Reset AI persona to default'}},
+ ],
+ warping:[
+  {cmd:'/helppanel setup',desc:{vi:'Thiết lập kênh & role cho Help Desk (Manager)',en:'Setup channel and roles for Help Desk panel (Manager)'},perm:'Manager'},
+  {cmd:'/helppanel send',desc:{vi:'Gửi Help Desk panel vào kênh hiện tại (Manager)',en:'Post Help Desk panel to current channel (Manager)'},perm:'Manager'},
+  {cmd:'/helppanel edit',desc:{vi:'Chỉnh embed và ảnh Help Desk (Manager)',en:'Edit Help Desk panel embed and images (Manager)'},perm:'Manager'},
+  {cmd:'/callhacker',desc:{vi:'Hiện/ẩn nút Call Hacker (Manager)',en:'Show or hide the Call Hacker button (Manager)'},perm:'Manager'},
+  {cmd:'/endpermission',desc:{vi:'Cho phép/hạn chế dùng Win/Lose/End (Manager)',en:'Allow or restrict Win/Lose/End (Manager)'},perm:'Manager'},
+  {cmd:'/win',desc:{vi:'Đánh dấu War/Backup là thắng',en:'Mark active War or Backup as a win'}},
+  {cmd:'/lose',desc:{vi:'Đánh dấu thua kèm lý do',en:'Mark active War or Backup as a loss with reason'}},
+  {cmd:'/end',desc:{vi:'Kết thúc War/Backup đang hoạt động',en:'End the active War or Backup session'}},
+  {cmd:'/session-end all',desc:{vi:'Kết thúc tất cả session (Manager)',en:'End all active War and Backup sessions (Manager)'},perm:'Manager'},
+  {cmd:'/trust-list',desc:{vi:'Xem danh sách trusted users',en:'View list of all trusted users and permissions'}},
+  {cmd:'/bot-config',desc:{vi:'Cấu hình War/Backup/Hacker roles (Manager)',en:'Configure War, Backup, and Hacker roles (Manager)'},perm:'Manager'},
+ ],
+ announcement:[
+  {cmd:'/announcement edit message',desc:{vi:'Sửa nội dung thông báo dạng text',en:'Edit plain-text announcement content'}},
+  {cmd:'/announcement edit embed',desc:{vi:'Sửa title, description, footer & ảnh embed',en:'Edit title, description, footer, and images for embed'}},
+  {cmd:'/announcement send',desc:{vi:'Gửi bản nháp announcement (Message/Embed)',en:'Post the announcement draft as Message or Embed'}},
+  {cmd:'/timestamp',desc:{vi:'Tạo Discord timestamp cho sự kiện',en:'Generate Discord event timestamps'}},
+ ],
+ event:[
+  {cmd:'/event send',desc:{vi:'Đăng panel event trong kênh này (Manage Server)',en:'Post the event panel in this channel (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/event edit title',desc:{vi:'Sửa tiêu đề Event (Manage Server)',en:'Edit the Event title (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/event edit description',desc:{vi:'Sửa mô tả Event (Manage Server)',en:'Edit the Event description (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/event participants',desc:{vi:'Xem danh sách người tham gia (Manage Server)',en:'View list of Event participants (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/event remove',desc:{vi:'Xóa người tham gia khỏi danh sách (Manage Server)',en:'Remove a participant from the list (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/event clear',desc:{vi:'Xóa toàn bộ người tham gia (Manage Server)',en:'Clear all Event participants (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/event blacklist',desc:{vi:'Quản lý Role/Member bị chặn khỏi Event',en:'Manage Roles/Members blocked from Events'}},
+  {cmd:'/giveaway create',desc:{vi:'Tạo giveaway mới kèm banner (Manage Server)',en:'Create a new giveaway with reward and banner (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/giveaway participants',desc:{vi:'Xem người tham gia Giveaway (Manage Server)',en:'View list of Giveaway participants (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/giveaway clear',desc:{vi:'Xóa toàn bộ người tham gia Giveaway (Manage Server)',en:'Clear all Giveaway participants (Manage Server)'},perm:'Manage Server'},
+  {cmd:'/giveaway blacklist',desc:{vi:'Quản lý Role/Member bị chặn Giveaway',en:'Manage Roles/Members blocked from Giveaways'}},
+  {cmd:'/giveaway draw',desc:{vi:'Quay và công bố người thắng Giveaway (Manage Server)',en:'Draw and announce giveaway winners (Manage Server)'},perm:'Manage Server'},
+ ],
+ moderation:[
+  {cmd:'/kick',desc:{vi:'Kick thành viên khỏi server (Server Owner)',en:'Kick a member from the server (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/mute',desc:{vi:'Mute bằng Timeout/Muted Role (Server Owner)',en:'Mute a member via Timeout/Muted Role (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/unmute',desc:{vi:'Unmute và khôi phục role (Server Owner)',en:'Unmute a member and restore saved roles (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/ban',desc:{vi:'Ban thành viên khỏi server (Server Owner)',en:'Ban a member from the server (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/unban',desc:{vi:'Unban bằng User ID',en:'Unban a user using their User ID'}},
+  {cmd:'/trust',desc:{vi:'Cấp quyền quản lý trusted (Server Owner)',en:'Grant trusted management permissions (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/untrust',desc:{vi:'Thu hồi quyền trusted (Server Owner)',en:'Revoke trusted management permissions (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/trust-list',desc:{vi:'Liệt kê trusted users & quyền',en:'List all trusted users and permissions'}},
+  {cmd:'/security',desc:{vi:'Xem trạng thái Security',en:'View current Security status'}},
+  {cmd:'/toggle',desc:{vi:'Bật/tắt module bảo vệ',en:'Enable or disable a security module'}},
+  {cmd:'/threshold',desc:{vi:'Đặt ngưỡng % cho mỗi action',en:'Set threshold percentage per action'}},
+  {cmd:'/punishment',desc:{vi:'Đặt hình phạt: Ban/Kick/Mute',en:'Set action punishment (Ban / Kick / Mute)'}},
+  {cmd:'/fallback',desc:{vi:'Cấu hình fallback punishment',en:'Configure fallback punishment'}},
+  {cmd:'/post-punish',desc:{vi:'Đặt hành vi post-punish (reset/decay)',en:'Set post-punish behavior (reset/decay)'}},
+  {cmd:'/decay',desc:{vi:'Cấu hình decay điểm vi phạm',en:'Configure violation score decay'}},
+  {cmd:'/mute-duration',desc:{vi:'Đặt thời lượng mute mặc định',en:'Set default mute duration'}},
+  {cmd:'/admin-mute-method',desc:{vi:'Cấu hình xử lý role admin khi mute',en:'Configure admin role handling on mute'}},
+  {cmd:'/setchannel',desc:{vi:'Đặt kênh Security/Bot Watch/Raid Alert',en:'Set Security, Bot Watch, and Raid Alert channels'}},
+  {cmd:'/raid-config',desc:{vi:'Cấu hình ngưỡng Anti-Raid',en:'Configure Anti-Raid thresholds'}},
+  {cmd:'/spam-config',desc:{vi:'Cấu hình bộ lọc Anti-Spam',en:'Configure Anti-Spam filters'}},
+  {cmd:'/whitelist add',desc:{vi:'Thêm user vào whitelist',en:'Add a user to security whitelist'}},
+  {cmd:'/whitelist remove',desc:{vi:'Xóa user khỏi whitelist',en:'Remove a user from whitelist'}},
+  {cmd:'/whitelist list',desc:{vi:'Xem whitelisted users',en:'View whitelisted users'}},
+  {cmd:'/whitelist role',desc:{vi:'Whitelist role khỏi security rules',en:'Whitelist roles from security rules'}},
+  {cmd:'/whitelist channel',desc:{vi:'Whitelist kênh khỏi anti-spam',en:'Whitelist channels from anti-spam'}},
+  {cmd:'/setup-mute-role',desc:{vi:'Tạo/thiết lập Muted Role',en:'Setup or create a server Muted Role'}},
+  {cmd:'/muted-role-name',desc:{vi:'Đổi tên Muted Role',en:'Change the Muted Role name'}},
+  {cmd:'/backup create',desc:{vi:'Sao lưu roles & channels',en:'Create a backup of server roles and channels'}},
+  {cmd:'/backup load',desc:{vi:'Khôi phục server từ backup (Owner)',en:'Restore server from a backup (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/backup list',desc:{vi:'Liệt kê các bản sao lưu',en:'List saved server backups'}},
+  {cmd:'/backup delete',desc:{vi:'Xóa bản sao lưu (Owner)',en:'Delete a saved backup (Server Owner)'},perm:'Server Owner'},
+ ],
+ ban:[
+  {cmd:'/setbanchannel',desc:{vi:'Bật/tắt Ban Zone cho kênh hiện tại (Owner)',en:'Enable or disable Ban Zone for current channel (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/banzone',desc:{vi:'Chọn chế độ: Ban hoặc Mute (Owner)',en:'Set punishment mode: Ban or Mute (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/banwhitelist',desc:{vi:'Quản lý Ban Zone whitelist (Owner)',en:'Manage Ban Zone whitelist (Server Owner)'},perm:'Server Owner'},
+  {cmd:'/bandebug',desc:{vi:'Test khả năng thực thi Ban Zone (Bot owner)',en:'Test bot execution capability in Ban Zone (Bot owner)'},perm:'Bot owner'},
+ ],
+ language:[ {cmd:'/language',desc:{vi:'Đổi ngôn ngữ giao diện cá nhân',en:'Change your interface language'}} ],
+ others:[
+  {cmd:'/info',desc:{vi:'Xem thông tin hệ thống bot',en:'View full bot system information'}},
+  {cmd:'/serverinfo',desc:{vi:'Xem chi tiết server hiện tại',en:'View current server details'}},
+  {cmd:'/userinfo',desc:{vi:'Xem chi tiết user & profile',en:'View user details and profile'}},
+  {cmd:'/purge',desc:{vi:'Xóa nhanh tin nhắn (1–1000) có pacing',en:'Fast delete messages with rate-limit pacing'},perm:'Manage Messages'},
+  {cmd:'/help',desc:{vi:'Mở help menu này',en:'Open this help menu'}},
+ ]
+};
+
+const HELP_DETAIL={
+ chatbot:{title:{vi:'Help — AI Chatbot',en:'Help — AI Chatbot'},groups:[
+   {name:{vi:'Chat & AI Commands',en:'Chat & AI Commands'},keys:['chatbot']},
+   {name:{vi:'AI Persona',en:'AI Persona'},keys:['chatbot_persona']},
+ ]},
+ warping:{title:{vi:'Help — War Ping / Backup Ping',en:'Help — War Ping / Backup Ping'},groups:[
+   {name:{vi:'Help Desk Panel',en:'Help Desk Panel'},note:{vi:'Nhấn WAR hoặc BACKUP trên panel để mở yêu cầu mà không cần lệnh.',en:'Click WAR or BACKUP on the panel to open requests without commands.'}},
+   {name:{vi:'War / Backup Commands',en:'War / Backup Commands'},keys:['warping']},
+ ]},
+ announcement:{title:{vi:'Help — Announcement',en:'Help — Announcement'},groups:[{name:{vi:'Announcement Commands',en:'Announcement Commands'},keys:['announcement']}]},
+ event:{title:{vi:'Help — Event & Giveaway',en:'Help — Event & Giveaway'},groups:[
+   {name:{vi:'Event Commands',en:'Event Commands'},keys:['event_event']},
+   {name:{vi:'Giveaway Commands',en:'Giveaway Commands'},keys:['event_giveaway']},
+ ]},
+ moderation:{title:{vi:'Help — Moderation & Security',en:'Help — Moderation & Security'},groups:[
+   {name:{vi:'Moderation',en:'Moderation'},keys:['mod_kick']},
+   {name:{vi:'Trusted Admin',en:'Trusted Admin'},keys:['mod_trust']},
+   {name:{vi:'Security Settings',en:'Security Settings'},keys:['mod_sec']},
+   {name:{vi:'Whitelist',en:'Whitelist'},keys:['mod_white']},
+   {name:{vi:'Mute Role & Backup',en:'Mute Role & Backup'},keys:['mod_backup']},
+ ]},
+ ban:{title:{vi:'Help — Ban Zone (Auto-punish Channel)',en:'Help — Ban Zone (Auto-punish Channel)'},groups:[
+   {name:{vi:'Ban Zone Commands',en:'Ban Zone Commands'},keys:['ban']},
+   {name:{vi:'Lưu ý',en:'Note'},note:{vi:'Cả hai chế độ (Ban/Mute) đều tự động xóa tin nhắn của offender trong 24h trên toàn server.',en:'Both modes automatically purge the offender’s messages from the last 24h across the server.'}}
+ ]},
+ language:{title:{vi:'Help — Language',en:'Help — Language'},groups:[{name:{vi:'Language',en:'Language'},keys:['language']}]},
+ others:{title:{vi:'Help — Utilities & Settings',en:'Help — Utilities & Settings'},groups:[
+   {name:{vi:'Information',en:'Information'},keys:['other_info']},
+   {name:{vi:'Settings & Utilities',en:'Settings & Utilities'},keys:['other_util']},
+ ]},
+};
+
+// helpers to slice commands for detail modal
+function sliceForDetail(cat){
+ if(cat==='chatbot') return {
+   chatbot: COMMANDS.chatbot.slice(0,8),
+   chatbot_persona: COMMANDS.chatbot.slice(8),
+ };
+ if(cat==='event') return { event_event: COMMANDS.event.slice(0,7), event_giveaway: COMMANDS.event.slice(7)};
+ if(cat==='moderation') return {
+   mod_kick: COMMANDS.moderation.slice(0,5),
+   mod_trust: COMMANDS.moderation.slice(5,8),
+   mod_sec: COMMANDS.moderation.slice(8,20),
+   mod_white: COMMANDS.moderation.slice(20,25),
+   mod_backup: COMMANDS.moderation.slice(25),
+ };
+ if(cat==='others') return { other_info: COMMANDS.others.slice(0,3), other_util: COMMANDS.others.slice(3)};
+ if(cat==='ban') return {ban:COMMANDS.ban};
+ if(cat==='warping') return {warping:COMMANDS.warping};
+ if(cat==='announcement') return {announcement:COMMANDS.announcement};
+ if(cat==='language') return {language:COMMANDS.language};
+ return {[cat]:COMMANDS[cat]};
+}
+
+// ----- render help cards -----
+function renderHelp(){
+ const wrap=document.getElementById('helpCards');
+ const countEl=document.getElementById('cardsCount');
+ if(countEl) countEl.textContent = lang==='vi'?`${CATS.length} danh mục`:`${CATS.length} categories`;
+ wrap.innerHTML=CATS.map(c=>{
+  const cmds=COMMANDS[c.id]||[];
+  const preview=cmds.slice(0,3).map(x=>`<span class="chip">${x.cmd}</span>`).join('');
+  return `<article class="card" onclick="openHelp('${c.id}')">
+   <div class="card-top"><div class="icon">${c.icon}</div><span class="badge mono">${c.count}</span></div>
+   <h3>${lang==='vi'?c.vi:c.en}</h3>
+   <p>${lang==='vi'?c.desc.vi:c.en}</p>
+   <div class="cmd-preview">${preview}</div>
+   <div class="card-foot"><span>${c.id.toUpperCase()}</span><span>${lang==='vi'?'Xem chi tiết →':'View details →'}</span></div>
+  </article>`;
+ }).join('');
+}
+
+// ----- filters & deck -----
+const FILTERS=[
+ {id:'all',vi:'TẤT CẢ',en:'ALL'},
+ {id:'chatbot',vi:'AI CHATBOT',en:'AI CHATBOT'},
+ {id:'moderation',vi:'MODERATION',en:'MODERATION'},
+ {id:'ban',vi:'BAN ZONE',en:'BAN ZONE'},
+ {id:'warping',vi:'WAR PING / BACKUP',en:'WAR PING / BACKUP'},
+ {id:'event',vi:'TẠO EVENT',en:'EVENT'},
+ {id:'others',vi:'OTHERS',en:'OTHERS'},
+ {id:'announcement',vi:'ANNOUNCEMENT',en:'ANNOUNCEMENT'},
+];
+let active='all', showAll=false, query='';
+
+function renderFilters(){
+ document.getElementById('filters').innerHTML=FILTERS.map(f=>`<button class="fbtn ${active===f.id?'on':''}" onclick="setFilter('${f.id}')">${lang==='vi'?f.vi:f.en}</button>`).join('');
+}
+function setFilter(id){active=id;showAll=false;renderDeck();renderFilters();}
+
+function getFiltered(){
+ let pools=[];
+ if(active==='all'){
+  // all categories
+  Object.entries(COMMANDS).forEach(([cat,arr])=>{
+   arr.forEach(c=>pools.push({...c,cat}));
+  });
+  // sort: new first
+  pools.sort((a,b)=>(b.isNew?1:0)-(a.isNew?1:0));
+ } else {
+  const arr=COMMANDS[active]||[];
+  pools=arr.map(c=>({...c,cat:active}));
+  pools.sort((a,b)=>(b.isNew?1:0)-(a.isNew?1:0));
+ }
+ if(query){
+  const q=query.toLowerCase();
+  pools=pools.filter(p=> (p.cmd.toLowerCase().includes(q) || (lang==='vi'?p.desc.vi:p.desc.en).toLowerCase().includes(q) ));
+ }
+ return pools;
+}
+
+function renderDeck(){
+ const pools=getFiltered();
+ const grid=document.getElementById('deckGrid');
+ const empty=document.getElementById('empty');
+ const moreWrap=document.getElementById('viewMoreWrap');
+ const btn=document.getElementById('viewMoreBtn');
+ if(pools.length===0){grid.innerHTML='';empty.style.display='block';moreWrap.style.display='none';return;}
+ empty.style.display='none';
+ const isSearch= query.length>0;
+ const isFiltered= active!=='all';
+ const isIdle= !isSearch && !isFiltered;
+ const hasNew= pools.some(p=>p.isNew);
+ let visible;
+ if(isIdle && !showAll){
+  visible= hasNew? pools.filter(p=>p.isNew) : pools;
+ } else {
+  visible= pools;
+ }
+ if(isIdle && hasNew){
+  moreWrap.style.display='flex';
+  btn.textContent= showAll
+   ? (lang==='vi'?'Ẩn bớt ↑':'Show less ↑')
+   : (lang==='vi'?`Xem tất cả lệnh (${pools.length}) ↓`:`View all commands (${pools.length}) ↓`);
+ } else {
+  moreWrap.style.display='none';
+ }
+ const catLabel=(cat)=>{
+  const c=CATS.find(x=>x.id===cat); return c? (lang==='vi'?c.vi:c.en):cat;
+ };
+ grid.innerHTML=visible.map(p=>`
+  <div class="cmd-row">
+   <div>
+    <h4>${p.cmd} ${p.isNew?'<small>✨ NEW</small>':''}</h4>
+    <p>${lang==='vi'?p.desc.vi:p.desc.en}</p>
+    <div class="meta">
+     <span class="tag">${catLabel(p.cat)}</span>
+     ${p.perm?`<span class="tag perm">${p.perm}</span>`:''}
+     ${p.isNew?'<span class="tag new">NEW</span>':''}
+    </div>
+   </div>
+   <div class="mono" style="font-size:10px;color:var(--muted2);white-space:nowrap">${p.cat==='chatbot'?'AI':p.cat.toUpperCase()}</div>
+  </div>
+ `).join('');
+}
+document.getElementById('viewMoreBtn').onclick=()=>{showAll=!showAll;renderDeck()};
+document.getElementById('search').addEventListener('input',e=>{query=e.target.value.trim();showAll=false;renderDeck()});
+
+// ----- help modal -----
+function openHelp(cat){
+ const detail=HELP_DETAIL[cat];
+ const c=CATS.find(x=>x.id===cat);
+ document.getElementById('mEyebrow').textContent=c? (lang==='vi'?c.vi:c.en).toUpperCase()+' • '+c.count : '';
+ document.getElementById('mTitle').textContent= lang==='vi'?detail.title.vi:detail.title.en;
+ document.getElementById('mDesc').textContent= lang==='vi'?c.desc.vi:c.en;
+ const slices=sliceForDetail(cat);
+ let html='';
+ detail.groups.forEach(g=>{
+  html+=`<div class="group"><h4>${lang==='vi'?g.name.vi:g.name.en}</h4>`;
+  if(g.note) html+=`<div class="cmd"><span>${lang==='vi'?g.note.vi:g.note.en}</span></div>`;
+  (g.keys||[]).forEach(k=>{
+   (slices[k]||[]).forEach(item=>{
+    html+=`<div class="cmd"><code>${item.cmd} ${item.isNew?'<span style="background:var(--lime);color:#0A0A0C;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:800;margin-left:6px">✨ NEW</span>':''}</code><span>${lang==='vi'?item.desc.vi:item.desc.en}${item.perm?` <em style="color:var(--muted2)">(${item.perm})</em>`:''}</span></div>`;
+   });
+  });
+  // fallback direct cat
+  if(!g.keys && slices[cat]){}
+  html+=`</div>`;
+ });
+ // handle direct ban etc where group has key == cat
+ if(html.includes('group')===false){}
+ document.getElementById('mBody').innerHTML=html;
+ document.getElementById('helpOverlay').classList.add('open');
+}
+function closeHelp(){document.getElementById('helpOverlay').classList.remove('open')}
+document.getElementById('helpOverlay').addEventListener('click',e=>{if(e.target.id==='helpOverlay')closeHelp()});
+
+// ----- update log -----
+function shouldShowUpdate(){
+ const v=localStorage.getItem('nova_hide_update');
+ if(!v) return true;
+ return Date.now() > parseInt(v,10);
+}
+function closeUpdate(fromBtn=false){
+ const cb=document.getElementById('hide24');
+ if(cb.checked || fromBtn && cb.checked){
+   // for 24h
+ }
+ if(cb.checked){ localStorage.setItem('nova_hide_update', String(Date.now()+24*60*60*1000)); }
+ document.getElementById('updateOverlay').classList.remove('open');
+}
+document.getElementById('updateOverlay').addEventListener('click',e=>{if(e.target.id==='updateOverlay')closeUpdate()});
+
+// ----- scroll reveal & nav -----
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').classList.toggle('open');
+
+// ----- card carousel: wheel only hijacks scroll while there's room left, then hands off to the page -----
+const cardsWrap=document.getElementById('helpCards');
+cardsWrap.addEventListener('wheel',e=>{
+ if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return; // native horizontal gestures pass through untouched
+ const maxScroll=cardsWrap.scrollWidth-cardsWrap.clientWidth;
+ if(maxScroll<=0) return;
+ const atStart=cardsWrap.scrollLeft<=0;
+ const atEnd=cardsWrap.scrollLeft>=maxScroll-1;
+ if((e.deltaY<0&&atStart)||(e.deltaY>0&&atEnd)) return; // at the edge — release control to the page, no jump
+ e.preventDefault();
+ cardsWrap.scrollLeft+=e.deltaY;
+},{passive:false});
+
+// ----- 3D tilt: feature cards -----
+cardsWrap.addEventListener('mousemove',e=>{
+ const hovered=e.target.closest('.card');
+ cardsWrap.querySelectorAll('.card').forEach(card=>{
+  if(card===hovered){
+   const r=card.getBoundingClientRect();
+   const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+   const rx=(py-.5)*-10, ry=(px-.5)*10;
+   card.style.transform=`perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-6px)`;
+  } else if(card.style.transform){
+   card.style.transform='';
+  }
+ });
+});
+cardsWrap.addEventListener('mouseleave',()=>{cardsWrap.querySelectorAll('.card').forEach(c=>c.style.transform='')});
+
+// ----- 3D tilt: hero visual panel -----
+const heroSection=document.getElementById('home');
+const heroVisual=document.querySelector('.hero-visual');
+if(heroSection&&heroVisual){
+ heroSection.addEventListener('mousemove',e=>{
+  const r=heroSection.getBoundingClientRect();
+  const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+  const rx=(py-.5)*-6, ry=(px-.5)*6;
+  heroVisual.style.transform=`perspective(1200px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+ });
+ heroSection.addEventListener('mouseleave',()=>{heroVisual.style.transform=''});
+}
+
+// ----- avatar load (inline favicon/avatar fallback) -----
+function setAvatars(){
+ // try to use uploaded avatar.svg if exists, else fallback to favicon
+ const hero=document.getElementById('heroAvatar');
+ const navA=document.getElementById('navAvatar');
+ const footA=document.getElementById('footerAvatar');
+ fetch('avatar.svg',{method:'HEAD'}).then(r=>{
+   const src=r.ok?'avatar.svg':'favicon.svg';
+   hero.src=src; navA.src=src; if(footA) footA.src=src;
+ }).catch(()=>{hero.src='favicon.svg';navA.src='favicon.svg';if(footA) footA.src='favicon.svg';});
+}
+setAvatars();
+
+// ----- loader -----
+window.addEventListener('load',()=>{
+ setTimeout(()=>{
+  document.getElementById('loader').classList.add('out');
+  if(shouldShowUpdate()) document.getElementById('updateOverlay').classList.add('open');
+ },900);
+});
+applyLang();
+renderHelp();renderFilters();renderDeck();
+</script>
+</body>
+</html>

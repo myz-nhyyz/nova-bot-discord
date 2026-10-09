@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terms of Service — NOVA</title>
+<meta name="description" content="NOVA Discord bot — Terms of Service.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0A0C;--bg2:#121214;--line:rgba(236,231,217,.14);--lime:#ECE7D9;--muted:#9B9B9F;--muted2:#6E6E73;--text:#F2F1EC}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Instrument Sans",sans-serif;line-height:1.7;overflow-x:hidden}
+a{color:inherit}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,visibility .6s}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+.loader-line{width:200px;height:1px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:24px;border-radius:999px}
+.loader-bar{height:100%;width:0;background:var(--lime);box-shadow:0 0 16px var(--lime);animation:load 1.3s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes load{to{width:100%}}
+.loader-logo{font-family:"Fraunces",serif;font-size:38px;letter-spacing:-.05em;color:var(--lime)}
+
+/* nav */
+.nav{max-width:900px;margin:14px auto;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;background:rgba(18,18,21,.84);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:12px}
+.nav-brand{display:flex;align-items:center;gap:8px;padding:7px 6px}
+.nav-avatar{width:24px;height:24px;border-radius:7px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:#0a0a0a;transition:transform .35s cubic-bezier(.2,1,.3,1)}
+.nav-avatar:hover{transform:perspective(300px) rotateY(18deg) rotateX(6deg)}
+.nav-brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.14em;font-size:13px}
+.nav a{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;color:#CFCFD4;padding:7px 10px;border-radius:7px;transition:.2s}
+.nav a:hover{color:var(--text)}
+.nav a.active{background:var(--lime);color:#0A0A0C}
+.lang{border:1px solid rgba(255,255,255,.12);border-radius:8px;overflow:hidden;display:flex}
+.lang button{font-family:"JetBrains Mono",monospace;font-size:12px;padding:6px 10px;border:0;background:transparent;color:#9B9B9F;cursor:pointer}
+.lang button.on{background:var(--lime);color:#0A0A0C;font-weight:700}
+.invite-btn{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:800;letter-spacing:.04em;padding:7px 12px;background:var(--lime);color:#0A0A0C;border-radius:8px}
+
+.wrap{max-width:900px;margin:18px auto;padding:0 18px 10px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;transition:transform .4s cubic-bezier(.2,1,.3,1)}
+h1{font-family:"Fraunces",serif;letter-spacing:-.04em;margin:6px 0 8px;font-size:34px}
+h2{font-size:15px;margin:22px 0 8px;color:var(--lime);font-family:"JetBrains Mono",monospace;letter-spacing:.06em}
+p,li{color:#CFCFD4;font-size:14px}
+ul{padding-left:18px}
+a{color:#EDEDE8}
+.badge{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:11px;background:rgba(236,231,217,.12);border:1px solid rgba(236,231,217,.18);padding:6px 10px;border-radius:999px;color:var(--lime);transition:transform .3s ease}
+.badge:hover{transform:perspective(300px) rotateX(10deg) rotateY(-10deg) translateY(-1px)}
+.doc-section{margin-bottom:4px}
+
+/* reveal (3D scroll-in) */
+.reveal{opacity:0;transform:perspective(900px) translateY(18px) rotateX(5deg);transform-origin:50% 100%;transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* footer */
+.site-footer{max-width:900px;margin:40px auto 0;padding:34px 18px 24px}
+.footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:24px}
+.footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.footer-avatar{width:28px;height:28px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:#0a0a0a}
+.footer-brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.1em;font-size:14px}
+.footer-brand p{color:var(--muted2);font-size:12.5px;line-height:1.6;max-width:220px;margin:0}
+.footer-head{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;color:var(--lime);margin-bottom:12px}
+.footer-col a{display:block;color:#CFCFD4;font-size:13px;margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:26px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07);color:var(--muted2);font-family:"JetBrains Mono",monospace;font-size:11px}
+
+@media(max-width:700px){.footer-top{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.footer-top{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-logo">NOVA</div>
+  <div class="mono" style="font-size:10px;letter-spacing:.2em;color:#9B9B9F;margin-top:8px">TERMS OF SERVICE</div>
+  <div class="loader-line"><div class="loader-bar"></div></div>
+</div>
+
+<div class="nav">
+  <div style="display:flex;gap:4px;align-items:center">
+    <a href="index.html" class="nav-brand"><img class="nav-avatar" id="navAvatar" alt="NOVA" onerror="this.src='favicon.svg'" src="avatar.svg"><b>NOVA</b></a>
+    <a href="index.html" data-i="n_home">HOME</a>
+    <a href="terms-of-service.html" class="active">TERMS</a>
+    <a href="privacy-policy.html">PRIVACY</a>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <div class="lang"><button id="btnVI">VI</button><button id="btnEN" class="on">EN</button></div>
+    <a class="invite-btn" href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank" rel="noopener" data-i="n_invite">INVITE NOVA</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="card reveal">
+    <div class="mono" style="font-size:10px;letter-spacing:.16em;color:var(--lime)">NOVA — TERMS OF SERVICE</div>
+    <h1 data-i="title">Terms of Service</h1>
+    <div class="badge mono" data-i="eff">Effective from: 07/10/2026</div>
+    <p data-i="intro">By inviting and using NOVA in your Discord server, you agree to comply with the terms below.</p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h1">1. Service Description</h2>
+    <p data-i="p1"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h2">2. Acceptable Use</h2>
+    <ul data-i="l2"></ul>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h3">3. Ban Zone — Important Notice</h2>
+    <p data-i="p3"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h4">4. User-Generated Content</h2>
+    <ul data-i="l4"></ul>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h5">5. Availability &amp; Limits</h2>
+    <p data-i="p5"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h6">6. Termination &amp; Removal</h2>
+    <p data-i="p6"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h7">7. Disclaimer</h2>
+    <p data-i="p7"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h8">8. Changes to These Terms</h2>
+    <p data-i="p8"></p>
+  </div>
+
+  <div class="card reveal doc-section">
+    <h2 data-i="h9">9. Contact</h2>
+    <p data-i="p9"></p>
+    <p class="mono" style="font-size:11px;color:var(--muted2);margin-top:14px" data-i="legal_note">© 2026 NOVA. This document does not constitute legal advice. Please consult a professional for specific legal needs.</p>
+  </div>
+</div>
+
+<footer class="site-footer reveal">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-row"><img class="footer-avatar" id="footerAvatar" alt="NOVA" onerror="this.src='favicon.svg'" src="avatar.svg"><b>NOVA</b></div>
+      <p data-i="f_tagline">AI, security and community tools for Discord.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_navigate">NAVIGATE</div>
+      <a href="index.html" data-i="f_home">Home</a>
+      <a href="index.html#features" data-i="f_features">Features</a>
+      <a href="index.html#commands" data-i="f_commands">Commands</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_legal">LEGAL</div>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-head" data-i="f_contact">CONTACT</div>
+      <a href="mailto:anhbao27072011@gmail.com" data-i="f_email">Email Nova</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-i="f_copy">© 2026 NOVA. Built for Discord.</span>
+    <span><span data-i="effective_s">Effective</span> 07/10/2026</span>
+  </div>
+</footer>
+
+<script>
+let lang=localStorage.getItem('nova_lang')||'en';
+const T={
+ vi:{
+  n_home:"TRANG CHỦ", n_invite:"MỜI NOVA",
+  title:"Điều khoản Dịch vụ",
+  eff:"Hiệu lực từ: 07/10/2026",
+  intro:"Bằng việc mời và sử dụng NOVA trong server Discord, bạn đồng ý tuân thủ các điều khoản dưới đây. Nếu bạn không đồng ý, vui lòng không sử dụng bot hoặc gỡ bot khỏi server.",
+  h1:"1. Mô tả dịch vụ",
+  p1:"NOVA cung cấp: AI Chatbot (Qwen) với /chat, /image, /upscale, /editimage, /search; War Ping/Backup với Help Desk panel; Announcement &amp; timestamp; Event &amp; Giveaway; Moderation &amp; Security (kick/mute/ban, trust, whitelist, raid/spam, backup); Ban Zone (auto-ban/mute + purge 24h); và các tiện ích /info, /serverinfo, /userinfo, /purge, /language. Tính năng có thể thay đổi theo cập nhật.",
+  h2:"2. Điều kiện sử dụng",
+  l2:"<li>Tuân thủ Điều khoản Dịch vụ và Nguyên tắc Cộng đồng của Discord.</li><li>Không sử dụng NOVA để spam, quấy rối, phát tán nội dung bất hợp pháp, vi phạm bản quyền hoặc né tránh lệnh cấm.</li><li>Quản trị viên chịu trách nhiệm cấu hình quyền (Manage Channels/Server, Server Owner, Manager) và chịu trách nhiệm về hành động auto-moderation trong server của mình.</li>",
+  h3:"3. Ban Zone — Lưu ý quan trọng",
+  p3:"Khi kênh được đặt làm Ban Zone (/setbanchannel), mọi tin nhắn trong kênh sẽ kích hoạt hình phạt ngay lập tức (Ban hoặc Mute theo /banzone) và bot sẽ tự động xóa tin nhắn của người vi phạm trong 24h trên toàn server. Hãy đặt whitelist (/banwhitelist) cho bot, staff hoặc kênh cần thiết và kiểm tra bằng /bandebug trước khi kích hoạt.",
+  h4:"4. Nội dung do người dùng tạo",
+  l4:"<li>Bạn chịu trách nhiệm về prompt, ảnh tải lên, announcement, event và mọi nội dung tạo qua bot.</li><li>Không tải lên nội dung vi phạm pháp luật, quyền riêng tư, hoặc chứa mã độc.</li><li>Chúng tôi có thể từ chối xử lý hoặc xóa nội dung vi phạm mà không cần báo trước.</li>",
+  h5:"5. Tính khả dụng &amp; giới hạn",
+  p5:"Dịch vụ được cung cấp “như hiện có”. Chúng tôi nỗ lực duy trì uptime nhưng không cam kết hoạt động liên tục 100%. Giới hạn rate-limit của Discord và của nhà cung cấp AI/tìm kiếm có thể ảnh hưởng tốc độ phản hồi (ví dụ /purge có pacing, /image phụ thuộc hàng đợi AI).",
+  h6:"6. Chấm dứt &amp; gỡ bot",
+  p6:"Bạn có thể gỡ bot bất kỳ lúc nào. Chúng tôi có thể tạm ngưng hoặc thu hồi quyền truy cập nếu phát hiện lạm dụng, vi phạm điều khoản hoặc rủi ro bảo mật.",
+  h7:"7. Miễn trừ trách nhiệm",
+  p7:"Trong phạm vi pháp luật cho phép, NOVA và nhà phát triển không chịu trách nhiệm cho thiệt hại gián tiếp, mất dữ liệu, hoặc hậu quả phát sinh từ việc cấu hình sai (ví dụ đặt nhầm kênh làm Ban Zone). Quản trị viên cần kiểm tra kỹ cấu hình trước khi áp dụng trên server chính.",
+  h8:"8. Thay đổi điều khoản",
+  p8:"Điều khoản có thể được cập nhật; ngày hiệu lực mới sẽ được nêu ở đầu trang. Việc tiếp tục sử dụng sau cập nhật được xem là chấp thuận.",
+  h9:"9. Liên hệ",
+  p9:'Liên hệ: <a href="mailto:anhbao27072011@gmail.com">anhbao27072011@gmail.com</a> — Discord: <b>nova_inovation</b> — Invite: <a href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank">discord.com/oauth2/authorize?client_id=1532745879944036523</a>',
+  legal_note:"© 2026 NOVA. Tài liệu này không cấu thành tư vấn pháp lý. Vui lòng tham khảo ý kiến chuyên môn cho nhu cầu pháp lý cụ thể.",
+  f_tagline:"AI, security và công cụ cộng đồng cho Discord.",
+  f_navigate:"ĐIỀU HƯỚNG", f_home:"Trang chủ", f_features:"Tính năng", f_commands:"Lệnh",
+  f_legal:"PHÁP LÝ", f_contact:"LIÊN HỆ", f_email:"Email Nova",
+  f_copy:"© 2026 NOVA. Xây dựng cho Discord.", effective_s:"Hiệu lực"
+ },
+ en:{
+  n_home:"HOME", n_invite:"INVITE NOVA",
+  title:"Terms of Service",
+  eff:"Effective from: 07/10/2026",
+  intro:"By inviting and using NOVA in your Discord server, you agree to comply with the terms below. If you do not agree, please do not use the Bot, or remove it from your server.",
+  h1:"1. Service Description",
+  p1:"NOVA provides: an AI Chatbot (Qwen) via /chat, /image, /upscale, /editimage, /search; War Ping/Backup with a Help Desk panel; Announcements &amp; timestamps; Events &amp; Giveaways; Moderation &amp; Security (kick/mute/ban, trust, whitelist, raid/spam, backups); Ban Zone (auto-ban/mute + 24h purge); and utilities such as /info, /serverinfo, /userinfo, /purge, /language. Features may change with future updates.",
+  h2:"2. Acceptable Use",
+  l2:"<li>Comply with Discord's Terms of Service and Community Guidelines.</li><li>Do not use NOVA to spam, harass, distribute illegal content, infringe copyright, or evade a ban.</li><li>Administrators are responsible for configuring permissions (Manage Channels/Server, Server Owner, Manager) and for auto-moderation actions taken within their own server.</li>",
+  h3:"3. Ban Zone — Important Notice",
+  p3:"When a channel is set as a Ban Zone (/setbanchannel), any message posted there immediately triggers a penalty (Ban or Mute, per /banzone), and the bot automatically purges the offender's messages from the last 24h across the whole server. Set a whitelist (/banwhitelist) for the bot, staff, or any channel that needs one, and verify it with /bandebug before activating.",
+  h4:"4. User-Generated Content",
+  l4:"<li>You are responsible for prompts, uploaded images, announcements, events, and any content created through the Bot.</li><li>Do not upload content that violates the law, violates privacy, or contains malicious code.</li><li>We may refuse to process or remove content that violates these terms without prior notice.</li>",
+  h5:"5. Availability &amp; Limits",
+  p5:"The service is provided “as is.” We work to maintain uptime but do not guarantee 100% continuous operation. Rate limits from Discord and from our AI/search providers can affect response speed (for example, /purge is paced, and /image depends on the AI queue).",
+  h6:"6. Termination &amp; Removal",
+  p6:"You may remove the Bot at any time. We may suspend or revoke access if we detect abuse, a violation of these terms, or a security risk.",
+  h7:"7. Disclaimer",
+  p7:"To the extent permitted by law, NOVA and its developer are not liable for indirect damages, data loss, or consequences arising from misconfiguration (for example, setting the wrong channel as a Ban Zone). Administrators should carefully review their configuration before applying it on a production server.",
+  h8:"8. Changes to These Terms",
+  p8:"These terms may be updated; the new effective date will be noted at the top of the page. Continued use after an update constitutes acceptance.",
+  h9:"9. Contact",
+  p9:'Contact: <a href="mailto:anhbao27072011@gmail.com">anhbao27072011@gmail.com</a> — Discord: <b>nova_inovation</b> — Invite: <a href="https://discord.com/oauth2/authorize?client_id=1532745879944036523" target="_blank">discord.com/oauth2/authorize?client_id=1532745879944036523</a>',
+  legal_note:"© 2026 NOVA. This document does not constitute legal advice. Please consult a professional for specific legal needs.",
+  f_tagline:"AI, security and community tools for Discord.",
+  f_navigate:"NAVIGATE", f_home:"Home", f_features:"Features", f_commands:"Commands",
+  f_legal:"LEGAL", f_contact:"CONTACT", f_email:"Email Nova",
+  f_copy:"© 2026 NOVA. Built for Discord.", effective_s:"Effective"
+ }
+};
+function apply(){
+ document.getElementById('btnVI').classList.toggle('on',lang==='vi');
+ document.getElementById('btnEN').classList.toggle('on',lang==='en');
+ document.documentElement.lang=lang;
+ document.querySelectorAll('[data-i]').forEach(el=>{
+  const k=el.getAttribute('data-i');
+  if(T[lang]&&T[lang][k]!==undefined) el.innerHTML=T[lang][k];
+ });
+}
+document.getElementById('btnVI').onclick=()=>{lang='vi';localStorage.setItem('nova_lang','vi');apply()};
+document.getElementById('btnEN').onclick=()=>{lang='en';localStorage.setItem('nova_lang','en');apply()};
+apply();
+
+// ----- scroll reveal (3D entrance) -----
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ----- page-load animation -----
+window.addEventListener('load',()=>{
+ setTimeout(()=>{document.getElementById('loader').classList.add('out')},700);
+});
+</script>
+</body>
+</html>
