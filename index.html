@@ -29,20 +29,27 @@ a{color:inherit;text-decoration:none}
 .display{font-family:"Fraunces",serif;letter-spacing:-.04em;line-height:.85}
 
 /* loader */
-#loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s ease,visibility .7s}
-#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+#loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s ease,visibility .7s,transform .7s cubic-bezier(.6,0,.4,1)}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none;transform:perspective(800px) rotateX(20deg) scale(.86) translateY(-14px)}
 .loader-line{width:220px;height:1px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:28px;border-radius:999px}
 .loader-bar{height:100%;width:0;background:var(--lime);box-shadow:0 0 18px var(--lime);animation:load 1.6s cubic-bezier(.65,0,.35,1) forwards}
 @keyframes load{to{width:100%}}
-.loader-logo{font-family:"Fraunces",serif;font-size:46px;letter-spacing:-.06em;display:flex;align-items:center;gap:12px}
-.loader-logo span{color:var(--lime)}
+.loader-orbit{position:relative;width:10px;height:10px;margin:0 auto 24px;perspective:280px}
+.loader-orbit-ring{position:absolute;inset:0;transform-style:preserve-3d;animation:orbitSpin 2.2s linear infinite}
+.loader-orbit-ring i{position:absolute;top:0;left:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime)}
+@keyframes orbitSpin{from{transform:rotateX(62deg) rotateZ(0deg)}to{transform:rotateX(62deg) rotateZ(360deg)}}
+.loader-logo{font-family:"Fraunces",serif;font-size:46px;letter-spacing:-.06em;display:flex;align-items:center;gap:12px;perspective:600px}
+.loader-logo span{color:var(--lime);display:inline-flex}
+.loader-logo .lt{display:inline-block;transform-origin:50% 100%;animation:flipIn .65s cubic-bezier(.2,1,.3,1) both}
+@keyframes flipIn{from{opacity:0;transform:rotateX(100deg) translateY(10px)}to{opacity:1;transform:rotateX(0) translateY(0)}}
+@media(prefers-reduced-motion:reduce){.loader-orbit-ring{animation:none}.loader-logo .lt{animation:none;opacity:1;transform:none}#loader{transition:opacity .4s ease,visibility .4s}#loader.out{transform:none}}
 
 /* nav */
 .nav-wrap{position:sticky;top:14px;z-index:50;padding:0 18px}
 .nav{max-width:1240px;margin:0 auto;background:rgba(18,18,21,.84);backdrop-filter:blur(16px) saturate(1.2);border:1px solid rgba(236,231,217,.14);border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:8px 10px 8px 10px;gap:10px}
 .nav-left{display:flex;align-items:center;gap:18px}
 .brand{display:flex;align-items:center;gap:10px}
-.brand img{width:32px;height:32px;border-radius:7px;object-fit:cover;background:#0a0a0a;border:1px solid rgba(255,255,255,.08)}
+.brand img{width:32px;height:32px;border-radius:7px;object-fit:cover;background:#0a0a0a;border:1px solid rgba(255,255,255,.08);transition:transform .3s ease;will-change:transform}
 .brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.14em;font-size:14px}
 .nav-links{display:flex;gap:4px;align-items:center}
 .nav-links a{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;color:#CFCFD4;padding:8px 12px;border-radius:7px;transition:.2s}
@@ -71,7 +78,10 @@ a{color:inherit;text-decoration:none}
 .stat span{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;color:var(--muted2)}
 .hero-visual{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,#121215,#0A0A0C);position:relative;display:flex;flex-direction:column;transition:transform .3s ease;will-change:transform}
 .hero-visual-top{height:220px;position:relative;overflow:hidden;background:radial-gradient(400px 220px at 50% 30%,rgba(236,231,217,.22),transparent 60%),linear-gradient(180deg,rgba(255,255,255,.04),transparent)}
-.avatar-big{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:148px;height:148px;border-radius:20px;overflow:hidden;border:2px solid rgba(255,255,255,.12);box-shadow:0 20px 60px rgba(0,0,0,.6);background:#0a0a0a}
+.avatar-big{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:148px;height:148px;border-radius:20px;overflow:visible;transition:transform .3s ease;will-change:transform}
+.avatar-float{width:100%;height:100%;border-radius:20px;overflow:hidden;border:2px solid rgba(255,255,255,.12);box-shadow:0 20px 60px rgba(0,0,0,.6);background:#0a0a0a;animation:floatAvatar 5s ease-in-out infinite}
+@keyframes floatAvatar{0%,100%{transform:translateY(0) rotateZ(0deg)}50%{transform:translateY(-8px) rotateZ(1.5deg)}}
+@media(prefers-reduced-motion:reduce){.avatar-float{animation:none}}
 .avatar-big img{width:100%;height:100%;object-fit:cover}
 .presence{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(10,10,12,.85);border:1px solid rgba(236,231,217,.25);backdrop-filter:blur(10px);border-radius:999px;padding:6px 10px;display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:11px;white-space:nowrap}
 .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e}
@@ -94,7 +104,7 @@ a{color:inherit;text-decoration:none}
 .card::after{content:"";position:absolute;inset:0;background:radial-gradient(400px 200px at 80% 0%,rgba(236,231,217,.12),transparent 60%);opacity:0;transition:.3s}
 .card:hover::after{opacity:1}
 .card-top{display:flex;justify-content:space-between;align-items:start;gap:8px}
-.icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(236,231,217,.12);border:1px solid rgba(236,231,217,.18);font-size:16px;flex-shrink:0}
+.icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(236,231,217,.12);border:1px solid rgba(236,231,217,.18);font-size:16px;flex-shrink:0;transition:transform .25s ease;will-change:transform}
 .badge{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;background:var(--lime);color:#0A0A0C;padding:4px 7px;border-radius:999px;font-weight:800}
 .card h3{margin:12px 0 6px;font-size:14px;letter-spacing:-.02em}
 .card p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.6;min-height:36px}
@@ -154,7 +164,7 @@ a{color:inherit;text-decoration:none}
 .site-footer{max-width:1240px;margin:40px auto 0;padding:40px 18px 24px}
 .footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:26px}
 .footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.footer-avatar{width:30px;height:30px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:#0a0a0a}
+.footer-avatar{width:30px;height:30px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,.1);background:#0a0a0a;transition:transform .3s ease;will-change:transform}
 .footer-brand b{font-family:"Space Grotesk",sans-serif;letter-spacing:.1em;font-size:14px}
 .footer-brand p{color:var(--muted2);font-size:12.5px;line-height:1.6;max-width:230px;margin:0}
 .footer-head{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;color:var(--lime);margin-bottom:12px}
@@ -186,7 +196,20 @@ a{color:inherit;text-decoration:none}
 <body>
 
 <div id="loader">
-  <div class="loader-logo"><span>NOVA</span> <small style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#9B9B9F;margin-top:10px">DISCORD BOT</small></div>
+  <div class="loader-orbit"><div class="loader-orbit-ring">
+    <i style="transform:rotateY(0deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(45deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(90deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(135deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(180deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(225deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(270deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(315deg) translateZ(38px)"></i>
+  </div></div>
+  <div class="loader-logo">
+    <span><span class="lt" style="animation-delay:.05s">N</span><span class="lt" style="animation-delay:.12s">O</span><span class="lt" style="animation-delay:.19s">V</span><span class="lt" style="animation-delay:.26s">A</span></span>
+    <small style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#9B9B9F;margin-top:10px">DISCORD BOT</small>
+  </div>
   <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#9B9B9F;margin-top:6px">SYNCHRONIZING SYSTEMS — PLEASE WAIT</div>
   <div class="loader-line"><div class="loader-bar"></div></div>
 </div>
@@ -231,7 +254,7 @@ a{color:inherit;text-decoration:none}
   </div>
   <div class="hero-visual reveal" style="transition-delay:.08s">
     <div class="hero-visual-top">
-      <div class="avatar-big"><img id="heroAvatar" alt="NOVA avatar"></div>
+      <div class="avatar-big"><div class="avatar-float"><img id="heroAvatar" alt="NOVA avatar"></div></div>
       <div class="presence"><span class="dot"></span><span data-i="presence">NOVA đang hoạt động — Sẵn sàng phục vụ</span></div>
     </div>
     <div class="hero-visual-bottom">
@@ -415,8 +438,7 @@ const CATS=[
  {id:'event',vi:'Event & Giveaway',en:'Event & Giveaway',icon:'🎉',desc:{vi:'Tạo và quản lý event & giveaway',en:'Create and manage events & giveaways'},count:'12 commands'},
  {id:'moderation',vi:'Moderation & Security',en:'Moderation & Security',icon:'⚔️',desc:{vi:'Kick, mute, ban và bảo vệ server',en:'Kick, mute, ban and secure the server'},count:'30+ commands'},
  {id:'ban',vi:'Ban Zone',en:'Ban Zone',icon:'⛔',desc:{vi:'Kênh auto-ban và whitelist',en:'Auto-ban channel and whitelist'},count:'4 commands'},
- {id:'language',vi:'Language',en:'Language',icon:'🌐',desc:{vi:'Đổi ngôn ngữ giao diện cá nhân',en:'Set your personal interface language'},count:'1 command'},
- {id:'others',vi:'Other',en:'Other',icon:'✨',desc:{vi:'Tiện ích và cài đặt cá nhân',en:'Utilities and personal settings'},count:'5 commands'},
+ {id:'others',vi:'Other',en:'Other',icon:'✨',desc:{vi:'Tiện ích và cài đặt cá nhân',en:'Utilities and personal settings'},count:'6 commands'},
 ];
 
 const COMMANDS={
@@ -505,13 +527,13 @@ const COMMANDS={
   {cmd:'/banwhitelist',desc:{vi:'Quản lý Ban Zone whitelist (Owner)',en:'Manage Ban Zone whitelist (Server Owner)'},perm:'Server Owner'},
   {cmd:'/bandebug',desc:{vi:'Test khả năng thực thi Ban Zone (Bot owner)',en:'Test bot execution capability in Ban Zone (Bot owner)'},perm:'Bot owner'},
  ],
- language:[ {cmd:'/language',desc:{vi:'Đổi ngôn ngữ giao diện cá nhân',en:'Change your interface language'}} ],
  others:[
   {cmd:'/info',desc:{vi:'Xem thông tin hệ thống bot',en:'View full bot system information'}},
   {cmd:'/serverinfo',desc:{vi:'Xem chi tiết server hiện tại',en:'View current server details'}},
   {cmd:'/userinfo',desc:{vi:'Xem chi tiết user & profile',en:'View user details and profile'}},
   {cmd:'/purge',desc:{vi:'Xóa nhanh tin nhắn (1–1000) có pacing',en:'Fast delete messages with rate-limit pacing'},perm:'Manage Messages'},
   {cmd:'/help',desc:{vi:'Mở help menu này',en:'Open this help menu'}},
+  {cmd:'/language',desc:{vi:'Đổi ngôn ngữ giao diện cá nhân',en:'Change your interface language'}},
  ]
 };
 
@@ -540,7 +562,6 @@ const HELP_DETAIL={
    {name:{vi:'Ban Zone Commands',en:'Ban Zone Commands'},keys:['ban']},
    {name:{vi:'Lưu ý',en:'Note'},note:{vi:'Cả hai chế độ (Ban/Mute) đều tự động xóa tin nhắn của offender trong 24h trên toàn server.',en:'Both modes automatically purge the offender’s messages from the last 24h across the server.'}}
  ]},
- language:{title:{vi:'Help — Language',en:'Help — Language'},groups:[{name:{vi:'Language',en:'Language'},keys:['language']}]},
  others:{title:{vi:'Help — Utilities & Settings',en:'Help — Utilities & Settings'},groups:[
    {name:{vi:'Information',en:'Information'},keys:['other_info']},
    {name:{vi:'Settings & Utilities',en:'Settings & Utilities'},keys:['other_util']},
@@ -565,7 +586,6 @@ function sliceForDetail(cat){
  if(cat==='ban') return {ban:COMMANDS.ban};
  if(cat==='warping') return {warping:COMMANDS.warping};
  if(cat==='announcement') return {announcement:COMMANDS.announcement};
- if(cat==='language') return {language:COMMANDS.language};
  return {[cat]:COMMANDS[cat]};
 }
 
@@ -757,27 +777,73 @@ cardsWrap.addEventListener('mousemove',e=>{
   if(card===hovered){
    const r=card.getBoundingClientRect();
    const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
-   const rx=(py-.5)*-10, ry=(px-.5)*10;
-   card.style.transform=`perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-6px)`;
-  } else if(card.style.transform){
-   card.style.transform='';
+   const rx=(py-.5)*-18, ry=(px-.5)*18;
+   card.style.transform=`perspective(700px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-10px) scale(1.035)`;
+   const icon=card.querySelector('.icon');
+   if(icon) icon.style.transform=`translateZ(30px) rotateY(${(ry*1.4).toFixed(2)}deg)`;
+  } else {
+   if(card.style.transform) card.style.transform='';
+   const icon=card.querySelector('.icon');
+   if(icon) icon.style.transform='';
   }
  });
 });
-cardsWrap.addEventListener('mouseleave',()=>{cardsWrap.querySelectorAll('.card').forEach(c=>c.style.transform='')});
+cardsWrap.addEventListener('mouseleave',()=>{
+ cardsWrap.querySelectorAll('.card').forEach(c=>{c.style.transform='';const i=c.querySelector('.icon');if(i)i.style.transform=''});
+});
 
-// ----- 3D tilt: hero visual panel -----
+// ----- 3D tilt: deck command rows -----
+const deckGridEl=document.getElementById('deckGrid');
+if(deckGridEl){
+ deckGridEl.addEventListener('mousemove',e=>{
+  const hovered=e.target.closest('.cmd-row');
+  deckGridEl.querySelectorAll('.cmd-row').forEach(row=>{
+   if(row===hovered){
+    const r=row.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+    const rx=(py-.5)*-7, ry=(px-.5)*7;
+    row.style.transform=`perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-3px)`;
+   } else if(row.style.transform){ row.style.transform=''; }
+  });
+ });
+ deckGridEl.addEventListener('mouseleave',()=>{deckGridEl.querySelectorAll('.cmd-row').forEach(r=>r.style.transform='')});
+}
+
+// ----- 3D tilt: hero visual panel + avatar parallax depth -----
 const heroSection=document.getElementById('home');
 const heroVisual=document.querySelector('.hero-visual');
+const heroAvatarBig=document.querySelector('.avatar-big');
 if(heroSection&&heroVisual){
  heroSection.addEventListener('mousemove',e=>{
   const r=heroSection.getBoundingClientRect();
   const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
-  const rx=(py-.5)*-6, ry=(px-.5)*6;
+  const rx=(py-.5)*-12, ry=(px-.5)*12;
   heroVisual.style.transform=`perspective(1200px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+  if(heroAvatarBig) heroAvatarBig.style.transform=`translate(-50%,-50%) translateZ(60px) rotateX(${(-rx*1.3).toFixed(2)}deg) rotateY(${(-ry*1.3).toFixed(2)}deg)`;
  });
- heroSection.addEventListener('mouseleave',()=>{heroVisual.style.transform=''});
+ heroSection.addEventListener('mouseleave',()=>{heroVisual.style.transform='';if(heroAvatarBig) heroAvatarBig.style.transform='translate(-50%,-50%)'});
 }
+
+// ----- 3D tilt: brand logos (nav + footer) -----
+document.querySelectorAll('.brand img, .footer-avatar').forEach(img=>{
+ const holder=img.closest('.brand')||img;
+ holder.addEventListener('mousemove',e=>{
+  const r=img.getBoundingClientRect();
+  const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+  img.style.transform=`perspective(300px) rotateX(${((py-.5)*-24).toFixed(2)}deg) rotateY(${((px-.5)*24).toFixed(2)}deg)`;
+ });
+ holder.addEventListener('mouseleave',()=>{img.style.transform=''});
+});
+
+// ----- 3D tilt: CTA buttons -----
+document.querySelectorAll('.btn-lime').forEach(btn=>{
+ btn.addEventListener('mousemove',e=>{
+  const r=btn.getBoundingClientRect();
+  const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+  btn.style.transform=`perspective(500px) rotateX(${((py-.5)*-14).toFixed(2)}deg) rotateY(${((px-.5)*14).toFixed(2)}deg) translateY(-2px)`;
+ });
+ btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
+});
 
 // ----- avatar load (inline favicon/avatar fallback) -----
 function setAvatars(){
