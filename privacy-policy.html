@@ -16,12 +16,19 @@ a{color:inherit}
 .mono{font-family:"JetBrains Mono",monospace}
 
 /* loader */
-#loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,visibility .6s}
-#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+#loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,visibility .6s,transform .6s cubic-bezier(.6,0,.4,1)}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none;transform:perspective(800px) rotateX(20deg) scale(.86) translateY(-14px)}
 .loader-line{width:200px;height:1px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:24px;border-radius:999px}
 .loader-bar{height:100%;width:0;background:var(--lime);box-shadow:0 0 16px var(--lime);animation:load 1.3s cubic-bezier(.65,0,.35,1) forwards}
 @keyframes load{to{width:100%}}
-.loader-logo{font-family:"Fraunces",serif;font-size:38px;letter-spacing:-.05em;color:var(--lime)}
+.loader-orbit{position:relative;width:10px;height:10px;margin:0 auto 22px;perspective:280px}
+.loader-orbit-ring{position:absolute;inset:0;transform-style:preserve-3d;animation:orbitSpin 2.2s linear infinite}
+.loader-orbit-ring i{position:absolute;top:0;left:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime)}
+@keyframes orbitSpin{from{transform:rotateX(62deg) rotateZ(0deg)}to{transform:rotateX(62deg) rotateZ(360deg)}}
+.loader-logo{font-family:"Fraunces",serif;font-size:38px;letter-spacing:-.05em;color:var(--lime);display:flex;perspective:600px}
+.loader-logo .lt{display:inline-block;transform-origin:50% 100%;animation:flipIn .6s cubic-bezier(.2,1,.3,1) both}
+@keyframes flipIn{from{opacity:0;transform:rotateX(100deg) translateY(8px)}to{opacity:1;transform:rotateX(0) translateY(0)}}
+@media(prefers-reduced-motion:reduce){.loader-orbit-ring{animation:none}.loader-logo .lt{animation:none;opacity:1;transform:none}#loader{transition:opacity .4s ease,visibility .4s}#loader.out{transform:none}}
 
 /* nav */
 .nav{max-width:900px;margin:14px auto;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;background:rgba(18,18,21,.84);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:12px}
@@ -71,7 +78,17 @@ a{color:#EDEDE8}
 <body>
 
 <div id="loader">
-  <div class="loader-logo">NOVA</div>
+  <div class="loader-orbit"><div class="loader-orbit-ring">
+    <i style="transform:rotateY(0deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(45deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(90deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(135deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(180deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(225deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(270deg) translateZ(38px)"></i>
+    <i style="transform:rotateY(315deg) translateZ(38px)"></i>
+  </div></div>
+  <div class="loader-logo"><span class="lt" style="animation-delay:.05s">N</span><span class="lt" style="animation-delay:.12s">O</span><span class="lt" style="animation-delay:.19s">V</span><span class="lt" style="animation-delay:.26s">A</span></div>
   <div class="mono" style="font-size:10px;letter-spacing:.2em;color:#9B9B9F;margin-top:8px">PRIVACY POLICY</div>
   <div class="loader-line"><div class="loader-bar"></div></div>
 </div>
