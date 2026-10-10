@@ -194,9 +194,50 @@ a{color:inherit;text-decoration:none}
   .hero-card{padding:18px}
   .footer-top{grid-template-columns:1fr}
 }
+
+/* 3D background object: glowing core + globe + orbit rings */
+#bg3d{position:fixed;inset:0;z-index:-1;pointer-events:none;perspective:1000px;overflow:hidden;--S:clamp(230px,72vw,340px)}
+@media(min-width:960px){#bg3d{--S:clamp(300px,34vw,430px)}}
+#bg3dHolder{position:absolute;left:50%;top:40%;width:0;height:0;transform-style:preserve-3d}
+@media(min-width:960px){#bg3dHolder{left:67%;top:48%}}
+.bg-glow{position:absolute;left:50%;top:50%;width:calc(var(--S)*1.9);height:calc(var(--S)*1.9);margin:calc(var(--S)*-.95) 0 0 calc(var(--S)*-.95);background:radial-gradient(circle,rgba(236,231,217,.09),transparent 62%)}
+.bg-core{position:absolute;left:50%;top:50%;width:calc(var(--S)*.1);height:calc(var(--S)*.1);margin:calc(var(--S)*-.05) 0 0 calc(var(--S)*-.05);border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(236,231,217,.85) 28%,rgba(236,231,217,0) 70%);box-shadow:0 0 60px 18px rgba(236,231,217,.16)}
+.bg-orb{position:absolute;left:50%;top:50%;width:var(--S);height:var(--S);margin:calc(var(--S)/-2) 0 0 calc(var(--S)/-2);transform-style:preserve-3d;will-change:transform}
+.bg-orb .lon,.bg-orb .lat{position:absolute;border-radius:50%;border:1px solid rgba(236,231,217,.15)}
+.bg-orb .lon{inset:0}
+.bg-orb .lon:nth-child(2){transform:rotateY(30deg)}
+.bg-orb .lon:nth-child(3){transform:rotateY(60deg)}
+.bg-orb .lon:nth-child(4){transform:rotateY(90deg)}
+.bg-orb .lon:nth-child(5){transform:rotateY(120deg)}
+.bg-orb .lon:nth-child(6){transform:rotateY(150deg)}
+.bg-orb .lat{left:50%;top:50%}
+.bg-orb .lat.eq{width:var(--S);height:var(--S);transform:translate(-50%,-50%) rotateX(90deg);border-color:rgba(236,231,217,.26)}
+.bg-orb .lat.n{width:calc(var(--S)*.82);height:calc(var(--S)*.82);transform:translate(-50%,-50%) translateY(calc(var(--S)*-.287)) rotateX(90deg)}
+.bg-orb .lat.s{width:calc(var(--S)*.82);height:calc(var(--S)*.82);transform:translate(-50%,-50%) translateY(calc(var(--S)*.287)) rotateX(90deg)}
+.bg-orb .orbit{position:absolute;left:50%;top:50%;width:calc(var(--S)*1.3);height:calc(var(--S)*1.3);margin:calc(var(--S)*-.65) 0 0 calc(var(--S)*-.65);transform-style:preserve-3d}
+.bg-orb .o1{transform:rotateX(72deg) rotateY(18deg)}
+.bg-orb .o2{transform:rotateX(60deg) rotateY(-54deg)}
+.bg-orb .spin{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(236,231,217,.36);animation:orbitRot 14s linear infinite}
+.bg-orb .o2 .spin{animation-duration:21s;animation-direction:reverse}
+.bg-orb .sat{position:absolute;left:50%;top:-4px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px 3px rgba(236,231,217,.7)}
+@keyframes orbitRot{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.bg-orb .spin{animation:none}}
 </style>
 </head>
 <body>
+
+<div id="bg3d" aria-hidden="true">
+  <div id="bg3dHolder">
+    <div class="bg-glow"></div>
+    <div class="bg-core"></div>
+    <div class="bg-orb" id="bgOrb">
+      <div class="lon"></div><div class="lon"></div><div class="lon"></div><div class="lon"></div><div class="lon"></div><div class="lon"></div>
+      <div class="lat eq"></div><div class="lat n"></div><div class="lat s"></div>
+      <div class="orbit o1"><div class="spin"><i class="sat"></i></div></div>
+      <div class="orbit o2"><div class="spin"><i class="sat"></i></div></div>
+    </div>
+  </div>
+</div>
 
 <div id="loader">
   <div class="loader-dots"><i></i><i></i><i></i></div>
@@ -878,6 +919,32 @@ function runLoader(onDone){
 runLoader(()=>{ if(shouldShowUpdate()) document.getElementById('updateOverlay').classList.add('open'); });
 applyLang();
 renderHelp();renderFilters();renderDeck();
+
+// ----- 3D background orb: follows pointer / touch / scroll -----
+(function(){
+ const orb=document.getElementById('bgOrb'),holder=document.getElementById('bg3dHolder');
+ if(!orb||!holder) return;
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let mx=0,my=0,rx=-18,ry=25;
+ const t0=performance.now();
+ const setP=(x,y)=>{mx=x/window.innerWidth-.5;my=y/window.innerHeight-.5};
+ window.addEventListener('pointermove',e=>setP(e.clientX,e.clientY),{passive:true});
+ const onTouch=e=>{const t=e.touches&&e.touches[0];if(t) setP(t.clientX,t.clientY)};
+ window.addEventListener('touchstart',onTouch,{passive:true});
+ window.addEventListener('touchmove',onTouch,{passive:true});
+ function frame(now){
+  const t=(now-t0)/1000;
+  const idle=reduce?0:t*8;
+  const sc=(window.scrollY||0)*.16;
+  const tRY=mx*260+idle+sc;
+  const tRX=-my*200-18+(reduce?0:Math.sin(t*.45)*8)+sc*.3;
+  ry+=(tRY-ry)*.07; rx+=(tRX-rx)*.07;
+  orb.style.transform='rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)';
+  holder.style.transform='translate3d('+(-mx*40).toFixed(1)+'px,'+(-my*40).toFixed(1)+'px,0)';
+  requestAnimationFrame(frame);
+ }
+ requestAnimationFrame(frame);
+})();
 </script>
 </body>
 </html>
