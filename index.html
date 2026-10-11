@@ -195,48 +195,87 @@ a{color:inherit;text-decoration:none}
   .footer-top{grid-template-columns:1fr}
 }
 
-/* 3D background object: solar system (JS-driven, true 3D, single preserve-3d layer) */
+/* ============ 3D BACKGROUND: SOLAR SYSTEM ============ */
 #bg3d{position:fixed;inset:0;z-index:-1;pointer-events:none;perspective:1100px;overflow:hidden;--S:clamp(200px,60vw,300px)}
 @media(min-width:960px){#bg3d{--S:clamp(280px,31vw,400px)}}
 #bg3dHolder{position:absolute;left:50%;top:40%;width:0;height:0;transform-style:preserve-3d}
 @media(min-width:960px){#bg3dHolder{left:66%;top:48%}}
 .bg-glow{position:absolute;left:50%;top:50%;width:calc(var(--S)*2.3);height:calc(var(--S)*2.3);margin:calc(var(--S)*-1.15) 0 0 calc(var(--S)*-1.15);background:radial-gradient(circle,rgba(236,231,217,.1),transparent 60%)}
 
-/* Mặt Trời = khối lập phương 3D tự xoay */
-.bg-core{position:absolute;left:50%;top:50%;width:calc(var(--S)*.18);height:calc(var(--S)*.18);margin:calc(var(--S)*-.09) 0 0 calc(var(--S)*-.09);perspective:calc(var(--S)*1.6);transform-style:preserve-3d;animation:sunPulse 4.5s ease-in-out infinite}
-.bg-core .sun-cube{position:absolute;inset:0;transform-style:preserve-3d;animation:spinSun 7s linear infinite}
-.bg-core .face{position:absolute;width:100%;height:100%;background:radial-gradient(circle at 50% 45%,#fffdf4 0%,#f6e9c8 52%,#dfc98f 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),0 0 26px rgba(236,231,217,.5)}
-.bg-core .f-front{transform:translateZ(calc(var(--S)*.09))}
-.bg-core .f-back{transform:rotateY(180deg) translateZ(calc(var(--S)*.09));filter:brightness(.55)}
-.bg-core .f-right{transform:rotateY(90deg) translateZ(calc(var(--S)*.09));filter:brightness(.78)}
-.bg-core .f-left{transform:rotateY(-90deg) translateZ(calc(var(--S)*.09));filter:brightness(.66)}
-.bg-core .f-top{transform:rotateX(90deg) translateZ(calc(var(--S)*.09));filter:brightness(1.18)}
-.bg-core .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--S)*.09));filter:brightness(.42)}
-@keyframes spinSun{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
-@keyframes sunPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+/* ---- Mặt Trời = khối lập phương 3D tự xoay, nghiêng 28° để thấy 3 mặt ---- */
+.bg-core{
+  position:absolute;left:50%;top:50%;
+  width:calc(var(--S)*.18);height:calc(var(--S)*.18);
+  margin:calc(var(--S)*-.09) 0 0 calc(var(--S)*-.09);
+  perspective:calc(var(--S)*.7);
+}
+.bg-core .sun-cube{
+  position:absolute;inset:0;
+  transform-style:preserve-3d;
+  animation:spinSun 7s linear infinite;
+}
+.bg-core .face{
+  position:absolute;width:100%;height:100%;
+  background:radial-gradient(circle at 50% 45%,#fffdf4 0%,#f6e9c8 52%,#dfc98f 100%);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),0 0 26px rgba(236,231,217,.5);
+}
+.bg-core .f-front {transform:translateZ(calc(var(--S)*.09))}
+.bg-core .f-back  {transform:rotateY(180deg) translateZ(calc(var(--S)*.09));filter:brightness(.5)}
+.bg-core .f-right {transform:rotateY(90deg)  translateZ(calc(var(--S)*.09));filter:brightness(.72)}
+.bg-core .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--S)*.09));filter:brightness(.58)}
+.bg-core .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--S)*.09));filter:brightness(1.25)}
+.bg-core .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--S)*.09));filter:brightness(.35)}
 
+@keyframes spinSun{
+  0%  {transform:rotateX(28deg) rotateY(0deg)   scale(1)}
+  50% {transform:rotateX(28deg) rotateY(180deg) scale(1.08)}
+  100%{transform:rotateX(28deg) rotateY(360deg) scale(1)}
+}
+
+/* ---- Quỹ đạo & hành tinh ---- */
 .bg-orb{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
-.bg-orb .ring{position:absolute;left:50%;top:50%;width:calc(var(--S)*var(--k));height:calc(var(--S)*var(--k));margin:calc(var(--S)*var(--k)*-.5) 0 0 calc(var(--S)*var(--k)*-.5);border-radius:50%;border:1px solid rgba(236,231,217,.22)}
-.bg-orb .pl{position:absolute;left:50%;top:50%;width:var(--pd);height:var(--pd);margin:calc(var(--pd)*-.5) 0 0 calc(var(--pd)*-.5);perspective:calc(var(--pd)*6);will-change:transform}
+.bg-orb .ring{
+  position:absolute;left:50%;top:50%;
+  width:calc(var(--S)*var(--k));height:calc(var(--S)*var(--k));
+  margin:calc(var(--S)*var(--k)*-.5) 0 0 calc(var(--S)*var(--k)*-.5);
+  border-radius:50%;border:1px solid rgba(236,231,217,.22);
+}
+.bg-orb .pl{
+  position:absolute;left:50%;top:50%;
+  width:var(--pd);height:var(--pd);
+  margin:calc(var(--pd)*-.5) 0 0 calc(var(--pd)*-.5);
+  perspective:calc(var(--pd)*3);
+}
 .bg-orb .pl::after{content:"";position:absolute;inset:calc(var(--pd)*-.9);border-radius:50%;box-shadow:0 0 calc(var(--pd)*.7) rgba(236,231,217,.14)}
 .bg-orb .cube{position:absolute;inset:0;transform-style:preserve-3d;animation:spinSelf var(--spin) linear infinite}
 .bg-orb .face{position:absolute;width:var(--pd);height:var(--pd);background:var(--c1);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
-.bg-orb .f-front{transform:translateZ(calc(var(--pd)*.5))}
-.bg-orb .f-back{transform:rotateY(180deg) translateZ(calc(var(--pd)*.5));filter:brightness(.45)}
-.bg-orb .f-right{transform:rotateY(90deg) translateZ(calc(var(--pd)*.5));filter:brightness(.72)}
-.bg-orb .f-left{transform:rotateY(-90deg) translateZ(calc(var(--pd)*.5));filter:brightness(.58)}
-.bg-orb .f-top{transform:rotateX(90deg) translateZ(calc(var(--pd)*.5));filter:brightness(1.3)}
-.bg-orb .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--pd)*.5));filter:brightness(.38)}
-@keyframes spinSelf{from{transform:rotateX(18deg) rotateY(0deg)}to{transform:rotateX(18deg) rotateY(360deg)}}
-.bg-orb .p1{--pd:max(8px,calc(var(--S)*.032));--c1:#d9d3c4;--spin:1.7s}
-.bg-orb .p2{--pd:max(10px,calc(var(--S)*.044));--c1:#e8d6a4;--spin:2.1s}
-.bg-orb .p3{--pd:max(11px,calc(var(--S)*.05));--c1:#9fc0dd;--spin:2.5s}
-.bg-orb .p4{--pd:max(9px,calc(var(--S)*.04));--c1:#c97d58;--spin:1.9s}
-.bg-orb .p5{--pd:max(17px,calc(var(--S)*.095));--c1:#d9b57f;--spin:3.2s}
-.bg-orb .p6{--pd:max(14px,calc(var(--S)*.075));--c1:#d6c187;--spin:2.8s}
+.bg-orb .f-front {transform:translateZ(calc(var(--pd)*.5))}
+.bg-orb .f-back  {transform:rotateY(180deg) translateZ(calc(var(--pd)*.5));filter:brightness(.35)}
+.bg-orb .f-right {transform:rotateY(90deg)  translateZ(calc(var(--pd)*.5));filter:brightness(.7)}
+.bg-orb .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--pd)*.5));filter:brightness(.5)}
+.bg-orb .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--pd)*.5));filter:brightness(1.35)}
+.bg-orb .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--pd)*.5));filter:brightness(.3)}
+
+@keyframes spinSelf{
+  from{transform:rotateX(32deg) rotateY(0deg)}
+  to  {transform:rotateX(32deg) rotateY(360deg)}
+}
+
+/* Kích thước hành tinh (tăng để dễ thấy khối) */
+.bg-orb .p1{--pd:max(11px,calc(var(--S)*.045));--c1:#d9d3c4;--spin:1.7s}
+.bg-orb .p2{--pd:max(13px,calc(var(--S)*.055));--c1:#e8d6a4;--spin:2.1s}
+.bg-orb .p3{--pd:max(14px,calc(var(--S)*.06)); --c1:#9fc0dd;--spin:2.5s}
+.bg-orb .p4{--pd:max(12px,calc(var(--S)*.05)); --c1:#c97d58;--spin:1.9s}
+.bg-orb .p5{--pd:max(20px,calc(var(--S)*.11)); --c1:#d9b57f;--spin:3.2s}
+.bg-orb .p6{--pd:max(17px,calc(var(--S)*.09)); --c1:#d6c187;--spin:2.8s}
+
 .bg-orb .p6>.ring6{position:absolute;left:-55%;right:-55%;top:50%;height:42%;margin-top:-21%;border:1.5px solid rgba(239,224,184,.55);border-radius:50%;transform:rotate(-20deg)}
 .bg-orb .moon{position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:#e8e4da;box-shadow:0 0 5px rgba(232,228,218,.7);will-change:transform}
-@media(prefers-reduced-motion:reduce){.bg-core{animation:none}.bg-core .sun-cube{animation:none}.bg-orb .cube{animation:none}}
+
+@media(prefers-reduced-motion:reduce){
+  .bg-core .sun-cube{animation:none}
+  .bg-orb .cube{animation:none}
+}
 </style>
 </head>
 <body>
@@ -812,12 +851,12 @@ setActiveNav('home');
 // ----- card carousel: wheel only hijacks scroll while there's room left, then hands off to the page -----
 const cardsWrap=document.getElementById('helpCards');
 cardsWrap.addEventListener('wheel',e=>{
- if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return; // native horizontal gestures pass through untouched
+ if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return;
  const maxScroll=cardsWrap.scrollWidth-cardsWrap.clientWidth;
  if(maxScroll<=0) return;
  const atStart=cardsWrap.scrollLeft<=0;
  const atEnd=cardsWrap.scrollLeft>=maxScroll-1;
- if((e.deltaY<0&&atStart)||(e.deltaY>0&&atEnd)) return; // at the edge — release control to the page, no jump
+ if((e.deltaY<0&&atStart)||(e.deltaY>0&&atEnd)) return;
  e.preventDefault();
  cardsWrap.scrollLeft+=e.deltaY;
 },{passive:false});
@@ -933,7 +972,7 @@ runLoader(()=>{ if(shouldShowUpdate()) document.getElementById('updateOverlay').
 applyLang();
 renderHelp();renderFilters();renderDeck();
 
-// ----- 3D background solar system: JS-driven true 3D orbit, follows pointer / touch / scroll -----
+// ----- 3D background solar system: JS-driven true 3D orbit -----
 (function(){
  const orb=document.getElementById('bgOrb'),holder=document.getElementById('bg3dHolder'),stage=document.getElementById('bg3d');
  if(!orb||!holder||!stage) return;
@@ -949,12 +988,12 @@ renderHelp();renderFilters();renderDeck();
 
  const INCL=64;
  const planets=[
-  {id:'p1',k:.33,period:3.2, incl:-2},
-  {id:'p2',k:.48,period:4.4, incl:1.5},
-  {id:'p3',k:.63,period:5.8, incl:-1,moon:{r:.09,period:1.1}},
-  {id:'p4',k:.8, period:7.4, incl:2.5},
-  {id:'p5',k:1,  period:9.5, incl:-2.5},
-  {id:'p6',k:1.22,period:12, incl:1.2},
+  {id:'p1',k:.33, period:3.2, incl:-2},
+  {id:'p2',k:.48, period:4.4, incl:1.5},
+  {id:'p3',k:.63, period:5.8, incl:-1,moon:{r:.09,period:1.1}},
+  {id:'p4',k:.8,  period:7.4, incl:2.5},
+  {id:'p5',k:1,   period:9.5, incl:-2.5},
+  {id:'p6',k:1.22,period:12,  incl:1.2},
  ];
  planets.forEach(p=>{
   p.angle0=Math.random()*Math.PI*2;
