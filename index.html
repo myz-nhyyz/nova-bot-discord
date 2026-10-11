@@ -179,65 +179,82 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ==================================================================
-   FIX 3D: 
-   - KHÔNG có overflow:hidden trên #bg3d (thủ phạm flatten)
-   - KHÔNG có transform-style: preserve-3d trên #bg3dHolder
-   - .bg-core và .pl tự quản lý perspective cho con của mình
-   - Faces dùng MÀU RIÊNG, không dùng filter/border/inset-shadow
+   3D SOLAR SYSTEM — FIXED
+   - perspective dùng GIÁ TRỊ PX CỐ ĐỊNH (không calc-var)
+   - Kích thước cube qua --u (half-size, px cứng)
+   - KHÔNG overflow:hidden trên #bg3d
+   - KHÔNG transform-style trên #bg3dHolder
+   - Faces dùng background-color + background-image overlay
+     (thay cho filter, tránh flatten 3D)
    ================================================================== */
+
 #bg3d{
   position:fixed;inset:0;z-index:-1;pointer-events:none;
-  /* KHÔNG dùng overflow:hidden ở đây */
-  --S:clamp(200px,60vw,300px);
 }
-@media(min-width:960px){#bg3d{--S:clamp(280px,31vw,400px)}}
-
 #bg3dHolder{
-  position:absolute;left:50%;top:40%;
+  position:absolute;
+  left:50%;top:40%;
   width:0;height:0;
-  /* KHÔNG có transform-style: preserve-3d ở đây */
 }
-@media(min-width:960px){#bg3dHolder{left:66%;top:48%}}
+@media(min-width:960px){
+  #bg3dHolder{left:66%;top:48%}
+}
 
 .bg-glow{
   position:absolute;left:50%;top:50%;
-  width:calc(var(--S)*2.6);height:calc(var(--S)*2.6);
-  margin:calc(var(--S)*-1.3) 0 0 calc(var(--S)*-1.3);
-  background:radial-gradient(circle,rgba(236,231,217,.15),transparent 62%);
+  width:900px;height:900px;margin:-450px 0 0 -450px;
+  background:radial-gradient(circle,rgba(236,231,217,.16),transparent 62%);
+}
+@media(max-width:959px){
+  .bg-glow{width:600px;height:600px;margin:-300px 0 0 -300px}
 }
 
-/* ---------- MẶT TRỜI ---------- */
+/* ---------- SUN : 110px cube, perspective 200px ---------- */
 .bg-core{
+  --u: 55px;                        /* half of cube side */
   position:absolute;left:50%;top:50%;
-  width:calc(var(--S)*.22);height:calc(var(--S)*.22);
-  margin:calc(var(--S)*-.11) 0 0 calc(var(--S)*-.11);
-  perspective:calc(var(--S)*.45);   /* ~2× cube size → phối cảnh mạnh */
+  width:110px;height:110px;
+  margin:-55px 0 0 -55px;
+  perspective:200px;                /* FIXED PX, không calc-var */
+  perspective-origin:50% 50%;
 }
 .bg-core .sun-cube{
   position:absolute;top:0;left:0;
-  width:100%;height:100%;
+  width:110px;height:110px;
   transform-style:preserve-3d;
   animation:spinSun 6s linear infinite;
 }
 .bg-core .face{
   position:absolute;top:0;left:0;
-  width:100%;height:100%;
-  /* KHÔNG border, KHÔNG box-shadow, KHÔNG filter */
+  width:110px;height:110px;
+  border-radius:3px;
+  box-shadow:inset 0 0 0 1px rgba(140,110,50,.35),
+             inset 0 0 22px rgba(255,250,220,.7);
 }
-/* 6 MÀU KHÁC NHAU — không nhầm lẫn giữa các mặt */
-.bg-core .f-front {transform:translateZ(calc(var(--S)*.11));                          background:#fdf4d4}
-.bg-core .f-back  {transform:rotateY(180deg) translateZ(calc(var(--S)*.11));          background:#3a2810}
-.bg-core .f-right {transform:rotateY(90deg)  translateZ(calc(var(--S)*.11));          background:#e0bc6a}
-.bg-core .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--S)*.11));          background:#8a6a28}
-.bg-core .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--S)*.11));          background:#fff8b8}
-.bg-core .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--S)*.11));          background:#20160a}
+.bg-core .f-front {transform:translateZ(55px);                 background:#fdf4d4}
+.bg-core .f-back  {transform:rotateY(180deg) translateZ(55px); background:#2a1a08}
+.bg-core .f-right {transform:rotateY(90deg)  translateZ(55px); background:#d4a94e}
+.bg-core .f-left  {transform:rotateY(-90deg) translateZ(55px); background:#7a5a20}
+.bg-core .f-top   {transform:rotateX(90deg)  translateZ(55px); background:#fffbe0}
+.bg-core .f-bottom{transform:rotateX(-90deg) translateZ(55px); background:#1a1008}
+@media(max-width:959px){
+  .bg-core{width:84px;height:84px;margin:-42px 0 0 -42px;perspective:160px}
+  .bg-core .sun-cube{width:84px;height:84px}
+  .bg-core .face{width:84px;height:84px}
+  .bg-core .f-front {transform:translateZ(42px)}
+  .bg-core .f-back  {transform:rotateY(180deg) translateZ(42px)}
+  .bg-core .f-right {transform:rotateY(90deg)  translateZ(42px)}
+  .bg-core .f-left  {transform:rotateY(-90deg) translateZ(42px)}
+  .bg-core .f-top   {transform:rotateX(90deg)  translateZ(42px)}
+  .bg-core .f-bottom{transform:rotateX(-90deg) translateZ(42px)}
+}
 
 @keyframes spinSun{
-  from{transform:rotateX(38deg) rotateY(0deg)}
-  to  {transform:rotateX(38deg) rotateY(360deg)}
+  from{transform:rotateX(52deg) rotateY(0deg)}
+  to  {transform:rotateX(52deg) rotateY(360deg)}
 }
 
-/* ---------- QUỸ ĐẠO + HÀNH TINH ---------- */
+/* ---------- ORBITS + PLANETS ---------- */
 .bg-orb{
   position:absolute;left:50%;top:50%;
   width:0;height:0;
@@ -245,48 +262,57 @@ a{color:inherit;text-decoration:none}
 }
 .bg-orb .ring{
   position:absolute;left:50%;top:50%;
-  width:calc(var(--S)*var(--k));height:calc(var(--S)*var(--k));
-  margin:calc(var(--S)*var(--k)*-.5) 0 0 calc(var(--S)*var(--k)*-.5);
   border-radius:50%;
-  border:1px solid rgba(236,231,217,.20);
+  border:1px solid rgba(236,231,217,.22);
 }
+
+/* Planet wrapper: perspective riêng, cố định */
 .bg-orb .pl{
   position:absolute;left:50%;top:50%;
-  width:var(--pd);height:var(--pd);
-  margin:calc(var(--pd)*-.5) 0 0 calc(var(--pd)*-.5);
-  perspective:calc(var(--pd)*2);   /* perspective riêng cho mỗi hành tinh */
+  width:40px;height:40px;
+  margin:-20px 0 0 -20px;
+  perspective:72px;
+  perspective-origin:50% 50%;
 }
 .bg-orb .cube{
   position:absolute;top:0;left:0;
-  width:100%;height:100%;
+  width:40px;height:40px;
   transform-style:preserve-3d;
-  animation:spinSelf var(--spin) linear infinite;
+  animation:spinSelf var(--spin,2.4s) linear infinite;
 }
 .bg-orb .face{
   position:absolute;top:0;left:0;
-  width:100%;height:100%;
-  /* KHÔNG filter — dùng color-mix để tạo shade */
+  width:40px;height:40px;
+  background-color:var(--c1,#cccccc);
+  border-radius:2px;
 }
-/* 6 mặt hành tinh — dùng color-mix thay cho filter */
-.bg-orb .f-front {transform:translateZ(calc(var(--pd)*.5));                        background:var(--c1)}
-.bg-orb .f-back  {transform:rotateY(180deg) translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 65%)}
-.bg-orb .f-right {transform:rotateY(90deg)  translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 30%)}
-.bg-orb .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 50%)}
-.bg-orb .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),white 35%)}
-.bg-orb .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 75%)}
+.bg-orb .f-front {transform:translateZ(20px);                 background-image:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.05))}
+.bg-orb .f-back  {transform:rotateY(180deg) translateZ(20px); background-image:linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.72))}
+.bg-orb .f-right {transform:rotateY(90deg)  translateZ(20px); background-image:linear-gradient(rgba(0,0,0,.32),rgba(0,0,0,.32))}
+.bg-orb .f-left  {transform:rotateY(-90deg) translateZ(20px); background-image:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55))}
+.bg-orb .f-top   {transform:rotateX(90deg)  translateZ(20px); background-image:linear-gradient(rgba(255,255,255,.35),rgba(255,255,255,.35))}
+.bg-orb .f-bottom{transform:rotateX(-90deg) translateZ(20px); background-image:linear-gradient(rgba(0,0,0,.82),rgba(0,0,0,.82))}
 
 @keyframes spinSelf{
-  from{transform:rotateX(38deg) rotateY(0deg)}
-  to  {transform:rotateX(38deg) rotateY(360deg)}
+  from{transform:rotateX(52deg) rotateY(0deg)}
+  to  {transform:rotateX(52deg) rotateY(360deg)}
 }
 
-/* Kích thước + màu từng hành tinh */
-.bg-orb .p1{--pd:max(14px,calc(var(--S)*.05));--c1:#d9d3c4;--spin:1.8s}
-.bg-orb .p2{--pd:max(16px,calc(var(--S)*.06));--c1:#e8d6a4;--spin:2.2s}
-.bg-orb .p3{--pd:max(17px,calc(var(--S)*.065));--c1:#9fc0dd;--spin:2.6s}
-.bg-orb .p4{--pd:max(15px,calc(var(--S)*.055));--c1:#c97d58;--spin:2.0s}
-.bg-orb .p5{--pd:max(22px,calc(var(--S)*.11));--c1:#d9b57f;--spin:3.2s}
-.bg-orb .p6{--pd:max(19px,calc(var(--S)*.09));--c1:#d6c187;--spin:2.8s}
+/* Sizes/colors per planet (JS also sets --pu if needed) */
+.bg-orb .p1{--c1:#d9d3c4;--spin:1.8s}
+.bg-orb .p2{--c1:#e8d6a4;--spin:2.2s}
+.bg-orb .p3{--c1:#9fc0dd;--spin:2.6s}
+.bg-orb .p4{--c1:#c97d58;--spin:2.0s}
+.bg-orb .p5{--c1:#d9b57f;--spin:3.2s}
+.bg-orb .p6{--c1:#d6c187;--spin:2.8s}
+
+/* Planet sizes via zoom on .pl (works without breaking 3D) */
+.bg-orb .p1{zoom:0.7}
+.bg-orb .p2{zoom:0.9}
+.bg-orb .p3{zoom:1.0}
+.bg-orb .p4{zoom:0.8}
+.bg-orb .p5{zoom:1.3}
+.bg-orb .p6{zoom:1.1}
 
 .bg-orb .p6>.ring6{
   position:absolute;left:-55%;right:-55%;top:50%;height:42%;margin-top:-21%;
@@ -295,9 +321,9 @@ a{color:inherit;text-decoration:none}
 }
 .bg-orb .moon{
   position:absolute;left:50%;top:50%;
-  width:3px;height:3px;margin:-1.5px 0 0 -1.5px;
+  width:4px;height:4px;margin:-2px 0 0 -2px;
   border-radius:50%;background:#e8e4da;
-  box-shadow:0 0 5px rgba(232,228,218,.7);
+  box-shadow:0 0 6px rgba(232,228,218,.8);
 }
 @media(prefers-reduced-motion:reduce){
   .bg-core .sun-cube{animation:none}
@@ -963,30 +989,31 @@ renderHelp();renderFilters();renderDeck();
 
 /* ============ 3D background solar system ============ */
 (function(){
- const orb=document.getElementById('bgOrb'),holder=document.getElementById('bg3dHolder'),stage=document.getElementById('bg3d');
- if(!orb||!holder||!stage) return;
+ const orb=document.getElementById('bgOrb'),holder=document.getElementById('bg3dHolder');
+ if(!orb||!holder) return;
  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
- function readS(){
-  const w=window.innerWidth;
-  return w>=960 ? Math.max(280,Math.min(400,w*0.31)) : Math.max(200,Math.min(300,w*0.60));
- }
- let S=readS();
- window.addEventListener('resize',()=>{S=readS()},{passive:true});
+ function orbitBase(){ return window.innerWidth>=960 ? 500 : 340; }
+ let BASE=orbitBase();
+ window.addEventListener('resize',()=>{BASE=orbitBase()},{passive:true});
 
  const INCL=64;
  const planets=[
-  {id:'p1',k:.33, period:3.2, incl:-2},
-  {id:'p2',k:.48, period:4.4, incl:1.5},
-  {id:'p3',k:.63, period:5.8, incl:-1,moon:{r:.09,period:1.1}},
-  {id:'p4',k:.8,  period:7.4, incl:2.5},
-  {id:'p5',k:1,   period:9.5, incl:-2.5},
-  {id:'p6',k:1.22,period:12,  incl:1.2},
+  {id:'p1',k:.30, period:3.2, incl:-2},
+  {id:'p2',k:.44, period:4.4, incl:1.5},
+  {id:'p3',k:.58, period:5.8, incl:-1,moon:{r:.09,period:1.1}},
+  {id:'p4',k:.72, period:7.4, incl:2.5},
+  {id:'p5',k:.88, period:9.5, incl:-2.5},
+  {id:'p6',k:1.06,period:12,  incl:1.2},
  ];
  planets.forEach(p=>{
   p.angle0=Math.random()*Math.PI*2;
+  const size=BASE*p.k;
   const ring=document.createElement('div');
-  ring.className='ring'; ring.style.setProperty('--k',p.k);
+  ring.className='ring';
+  ring.style.width=size+'px';
+  ring.style.height=size+'px';
+  ring.style.margin=(-size/2)+'px 0 0 '+(-size/2)+'px';
   ring.style.transform='rotateX('+(INCL+p.incl)+'deg)';
   orb.appendChild(ring);
   const pl=document.createElement('div'); pl.className='pl '+p.id;
@@ -1011,12 +1038,12 @@ renderHelp();renderFilters();renderDeck();
  function frame(now){
   const t=(now-t0)/1000;
   planets.forEach(p=>{
-   const R=S*p.k*.5;
+   const R=BASE*p.k*.5;
    const ang=p.angle0+(reduce?0:t*2*Math.PI/p.period);
    const[x,y,z]=pt(R,ang,INCL+p.incl);
    p.el.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,'+z.toFixed(1)+'px)';
    if(p.moon){
-    const mr=S*p.moon.r;
+    const mr=BASE*p.k*.10;
     const mang=p.moon.angle0+(reduce?0:t*2*Math.PI/p.moon.period);
     const[mx2,my2,mz2]=pt(mr,mang,INCL+p.incl+20);
     p.moon.el.style.transform='translate3d('+(x+mx2).toFixed(1)+'px,'+(y+my2).toFixed(1)+'px,'+(z+mz2).toFixed(1)+'px)';
