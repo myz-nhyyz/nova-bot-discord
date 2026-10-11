@@ -10,16 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,800;9..144,1,800&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0A0A0C;
-  --bg2:#121214;
-  --card:#15151AF0;
+  --bg:#0A0A0C;--bg2:#121214;--card:#15151AF0;
   --line:rgba(236,231,217,.14);
-  --lime:#ECE7D9;
-  --lime2:#C9C3B2;
-  --muted:#9B9B9F;
-  --muted2:#6E6E73;
-  --text:#F2F1EC;
-  --radius:18px;
+  --lime:#ECE7D9;--lime2:#C9C3B2;
+  --muted:#9B9B9F;--muted2:#6E6E73;--text:#F2F1EC;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -49,7 +43,7 @@ a{color:inherit;text-decoration:none}
 
 /* nav */
 .nav-wrap{position:sticky;top:14px;z-index:50;padding:0 18px}
-.nav{max-width:1240px;margin:0 auto;background:rgba(18,18,21,.84);backdrop-filter:blur(16px) saturate(1.2);border:1px solid rgba(236,231,217,.14);border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:8px 10px 8px 10px;gap:10px}
+.nav{max-width:1240px;margin:0 auto;background:rgba(18,18,21,.84);backdrop-filter:blur(16px) saturate(1.2);border:1px solid rgba(236,231,217,.14);border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:8px 10px;gap:10px}
 .nav-left{display:flex;align-items:center;gap:18px}
 .brand{display:flex;align-items:center;gap:10px}
 .brand img{width:32px;height:32px;border-radius:7px;object-fit:cover;background:#0a0a0a;border:1px solid rgba(255,255,255,.08);transition:transform .3s ease;will-change:transform}
@@ -116,7 +110,7 @@ a{color:inherit;text-decoration:none}
 .card-foot{margin-top:14px;display:flex;align-items:center;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;color:var(--muted2)}
 .card-foot span:last-child{color:var(--lime)}
 
-/* command deck */
+/* deck */
 .deck{border:1px solid var(--line);border-radius:18px;background:rgba(16,16,18,.6);backdrop-filter:blur(10px);overflow:hidden}
 .deck-head{padding:16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .deck-head h2{font-family:"Fraunces",serif;font-size:26px;margin:0;letter-spacing:-.04em}
@@ -156,8 +150,6 @@ a{color:inherit;text-decoration:none}
 .cmd{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px}
 .cmd code{font-family:"JetBrains Mono",monospace;font-size:12px;color:#EDEDE8;white-space:nowrap;flex-shrink:0;display:flex;align-items:center}
 .cmd span{font-size:12px;color:var(--muted);line-height:1.5;flex:1 1 180px}
-
-/* update log modal small */
 .update-modal{width:min(520px,100%)}
 .update-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
 .check{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
@@ -195,83 +187,129 @@ a{color:inherit;text-decoration:none}
   .footer-top{grid-template-columns:1fr}
 }
 
-/* ============ 3D BACKGROUND: SOLAR SYSTEM ============ */
-#bg3d{position:fixed;inset:0;z-index:-1;pointer-events:none;perspective:1100px;overflow:hidden;--S:clamp(200px,60vw,300px)}
+/* ===================================================================
+   3D BACKGROUND — SOLAR SYSTEM
+   Fix chính:
+   1) KHÔNG dùng filter:brightness() trên các mặt — dùng màu nền khác
+      nhau để tránh browser flatten 3D context.
+   2) perspective NGẮN (≈1.8× cạnh cube) để phối cảnh mạnh.
+   3) Nghiêng rotateX(45deg) để thấy rõ 3 mặt → khối lập phương nổi.
+   =================================================================== */
+#bg3d{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  overflow:hidden;
+  perspective:1400px;
+  --S:clamp(200px,60vw,300px);
+}
 @media(min-width:960px){#bg3d{--S:clamp(280px,31vw,400px)}}
-#bg3dHolder{position:absolute;left:50%;top:40%;width:0;height:0;transform-style:preserve-3d}
-@media(min-width:960px){#bg3dHolder{left:66%;top:48%}}
-.bg-glow{position:absolute;left:50%;top:50%;width:calc(var(--S)*2.3);height:calc(var(--S)*2.3);margin:calc(var(--S)*-1.15) 0 0 calc(var(--S)*-1.15);background:radial-gradient(circle,rgba(236,231,217,.1),transparent 60%)}
 
-/* ---- Mặt Trời = khối lập phương 3D tự xoay, nghiêng 28° để thấy 3 mặt ---- */
+#bg3dHolder{
+  position:absolute;left:50%;top:40%;
+  width:0;height:0;
+  transform-style:preserve-3d;
+}
+@media(min-width:960px){#bg3dHolder{left:66%;top:48%}}
+
+.bg-glow{
+  position:absolute;left:50%;top:50%;
+  width:calc(var(--S)*2.6);height:calc(var(--S)*2.6);
+  margin:calc(var(--S)*-1.3) 0 0 calc(var(--S)*-1.3);
+  background:radial-gradient(circle,rgba(236,231,217,.14),transparent 62%);
+}
+
+/* ---------- MẶT TRỜI — khối lập phương 3D ---------- */
 .bg-core{
   position:absolute;left:50%;top:50%;
-  width:calc(var(--S)*.18);height:calc(var(--S)*.18);
-  margin:calc(var(--S)*-.09) 0 0 calc(var(--S)*-.09);
-  perspective:calc(var(--S)*.7);
+  width:calc(var(--S)*.22);height:calc(var(--S)*.22);
+  margin:calc(var(--S)*-.11) 0 0 calc(var(--S)*-.11);
+  perspective:calc(var(--S)*.42);   /* perspective gần → phối cảnh rõ */
 }
 .bg-core .sun-cube{
   position:absolute;inset:0;
   transform-style:preserve-3d;
-  animation:spinSun 7s linear infinite;
+  animation:spinSun 6s linear infinite;
 }
 .bg-core .face{
-  position:absolute;width:100%;height:100%;
-  background:radial-gradient(circle at 50% 45%,#fffdf4 0%,#f6e9c8 52%,#dfc98f 100%);
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),0 0 26px rgba(236,231,217,.5);
+  position:absolute;inset:0;
+  border:1px solid rgba(180,150,80,.35);
+  box-shadow:inset 0 0 24px rgba(255,245,210,.55);
 }
-.bg-core .f-front {transform:translateZ(calc(var(--S)*.09))}
-.bg-core .f-back  {transform:rotateY(180deg) translateZ(calc(var(--S)*.09));filter:brightness(.5)}
-.bg-core .f-right {transform:rotateY(90deg)  translateZ(calc(var(--S)*.09));filter:brightness(.72)}
-.bg-core .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--S)*.09));filter:brightness(.58)}
-.bg-core .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--S)*.09));filter:brightness(1.25)}
-.bg-core .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--S)*.09));filter:brightness(.35)}
+/* 6 mặt dùng MÀU KHÁC NHAU (không dùng filter) */
+.bg-core .face.f-front {transform:translateZ(calc(var(--S)*.11));      background:#fdf4d4}
+.bg-core .face.f-back  {transform:rotateY(180deg) translateZ(calc(var(--S)*.11)); background:#5c4820}
+.bg-core .face.f-right {transform:rotateY(90deg)  translateZ(calc(var(--S)*.11)); background:#e8d298}
+.bg-core .face.f-left  {transform:rotateY(-90deg) translateZ(calc(var(--S)*.11)); background:#b89e58}
+.bg-core .face.f-top   {transform:rotateX(90deg)  translateZ(calc(var(--S)*.11)); background:#fffce8}
+.bg-core .face.f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--S)*.11)); background:#4a3618}
 
 @keyframes spinSun{
-  0%  {transform:rotateX(28deg) rotateY(0deg)   scale(1)}
-  50% {transform:rotateX(28deg) rotateY(180deg) scale(1.08)}
-  100%{transform:rotateX(28deg) rotateY(360deg) scale(1)}
+  from{transform:rotateX(45deg) rotateY(0deg)}
+  to  {transform:rotateX(45deg) rotateY(360deg)}
 }
 
-/* ---- Quỹ đạo & hành tinh ---- */
-.bg-orb{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
+/* ---------- QUỸ ĐẠO + HÀNH TINH ---------- */
+.bg-orb{
+  position:absolute;left:50%;top:50%;
+  width:0;height:0;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
 .bg-orb .ring{
   position:absolute;left:50%;top:50%;
   width:calc(var(--S)*var(--k));height:calc(var(--S)*var(--k));
   margin:calc(var(--S)*var(--k)*-.5) 0 0 calc(var(--S)*var(--k)*-.5);
-  border-radius:50%;border:1px solid rgba(236,231,217,.22);
+  border-radius:50%;
+  border:1px solid rgba(236,231,217,.22);
 }
 .bg-orb .pl{
   position:absolute;left:50%;top:50%;
   width:var(--pd);height:var(--pd);
   margin:calc(var(--pd)*-.5) 0 0 calc(var(--pd)*-.5);
-  perspective:calc(var(--pd)*3);
+  perspective:calc(var(--pd)*1.8);   /* perspective gần */
 }
-.bg-orb .pl::after{content:"";position:absolute;inset:calc(var(--pd)*-.9);border-radius:50%;box-shadow:0 0 calc(var(--pd)*.7) rgba(236,231,217,.14)}
-.bg-orb .cube{position:absolute;inset:0;transform-style:preserve-3d;animation:spinSelf var(--spin) linear infinite}
-.bg-orb .face{position:absolute;width:var(--pd);height:var(--pd);background:var(--c1);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
-.bg-orb .f-front {transform:translateZ(calc(var(--pd)*.5))}
-.bg-orb .f-back  {transform:rotateY(180deg) translateZ(calc(var(--pd)*.5));filter:brightness(.35)}
-.bg-orb .f-right {transform:rotateY(90deg)  translateZ(calc(var(--pd)*.5));filter:brightness(.7)}
-.bg-orb .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--pd)*.5));filter:brightness(.5)}
-.bg-orb .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--pd)*.5));filter:brightness(1.35)}
-.bg-orb .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--pd)*.5));filter:brightness(.3)}
+.bg-orb .cube{
+  position:absolute;inset:0;
+  transform-style:preserve-3d;
+  animation:spinSelf var(--spin) linear infinite;
+}
+/* 6 mặt hành tinh — dùng màu var(--c1) + MÀU overlay khác nhau, không filter */
+.bg-orb .face{
+  position:absolute;inset:0;
+  background:var(--c1);
+  border:1px solid rgba(0,0,0,.22);
+}
+.bg-orb .face.f-front {transform:translateZ(calc(var(--pd)*.5));      filter:brightness(1.05)}
+.bg-orb .face.f-back  {transform:rotateY(180deg) translateZ(calc(var(--pd)*.5)); background:#111}
+.bg-orb .face.f-right {transform:rotateY(90deg)  translateZ(calc(var(--pd)*.5)); filter:brightness(.6)}
+.bg-orb .face.f-left  {transform:rotateY(-90deg) translateZ(calc(var(--pd)*.5)); filter:brightness(.4)}
+.bg-orb .face.f-top   {transform:rotateX(90deg)  translateZ(calc(var(--pd)*.5)); filter:brightness(1.5)}
+.bg-orb .face.f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--pd)*.5)); background:#000}
 
 @keyframes spinSelf{
-  from{transform:rotateX(32deg) rotateY(0deg)}
-  to  {transform:rotateX(32deg) rotateY(360deg)}
+  from{transform:rotateX(45deg) rotateY(0deg)}
+  to  {transform:rotateX(45deg) rotateY(360deg)}
 }
 
-/* Kích thước hành tinh (tăng để dễ thấy khối) */
-.bg-orb .p1{--pd:max(11px,calc(var(--S)*.045));--c1:#d9d3c4;--spin:1.7s}
-.bg-orb .p2{--pd:max(13px,calc(var(--S)*.055));--c1:#e8d6a4;--spin:2.1s}
-.bg-orb .p3{--pd:max(14px,calc(var(--S)*.06)); --c1:#9fc0dd;--spin:2.5s}
-.bg-orb .p4{--pd:max(12px,calc(var(--S)*.05)); --c1:#c97d58;--spin:1.9s}
-.bg-orb .p5{--pd:max(20px,calc(var(--S)*.11)); --c1:#d9b57f;--spin:3.2s}
-.bg-orb .p6{--pd:max(17px,calc(var(--S)*.09)); --c1:#d6c187;--spin:2.8s}
+/* Kích thước + màu từng hành tinh */
+.bg-orb .p1{--pd:max(10px,calc(var(--S)*.04));--c1:#d9d3c4;--spin:1.8s}
+.bg-orb .p2{--pd:max(12px,calc(var(--S)*.05));--c1:#e8d6a4;--spin:2.2s}
+.bg-orb .p3{--pd:max(13px,calc(var(--S)*.055));--c1:#9fc0dd;--spin:2.6s}
+.bg-orb .p4{--pd:max(11px,calc(var(--S)*.045));--c1:#c97d58;--spin:2.0s}
+.bg-orb .p5{--pd:max(18px,calc(var(--S)*.10));--c1:#d9b57f;--spin:3.2s}
+.bg-orb .p6{--pd:max(15px,calc(var(--S)*.08));--c1:#d6c187;--spin:2.8s}
 
-.bg-orb .p6>.ring6{position:absolute;left:-55%;right:-55%;top:50%;height:42%;margin-top:-21%;border:1.5px solid rgba(239,224,184,.55);border-radius:50%;transform:rotate(-20deg)}
-.bg-orb .moon{position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:#e8e4da;box-shadow:0 0 5px rgba(232,228,218,.7);will-change:transform}
-
+.bg-orb .p6>.ring6{
+  position:absolute;left:-55%;right:-55%;top:50%;height:42%;margin-top:-21%;
+  border:1.5px solid rgba(239,224,184,.55);border-radius:50%;
+  transform:rotate(-20deg);
+}
+.bg-orb .moon{
+  position:absolute;left:50%;top:50%;
+  width:3px;height:3px;margin:-1.5px 0 0 -1.5px;
+  border-radius:50%;background:#e8e4da;
+  box-shadow:0 0 5px rgba(232,228,218,.7);
+  will-change:transform;
+}
 @media(prefers-reduced-motion:reduce){
   .bg-core .sun-cube{animation:none}
   .bg-orb .cube{animation:none}
@@ -419,7 +457,6 @@ a{color:inherit;text-decoration:none}
   </div>
 </footer>
 
-<!-- Help detail modal -->
 <div class="overlay" id="helpOverlay">
   <div class="modal">
     <div class="modal-head">
@@ -434,7 +471,6 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
-<!-- Update log -->
 <div class="overlay" id="updateOverlay">
   <div class="modal update-modal">
     <div class="modal-head">
@@ -525,7 +561,6 @@ function applyLang(){
 document.getElementById('btnVI').onclick=()=>{lang='vi';localStorage.setItem('nova_lang','vi');applyLang()};
 document.getElementById('btnEN').onclick=()=>{lang='en';localStorage.setItem('nova_lang','en');applyLang()};
 
-// ----- data -----
 const CATS=[
  {id:'chatbot',vi:'AI Chatbot',en:'AI Chatbot',icon:'🤖',desc:{vi:'Trò chuyện với AI (Qwen) ngay trong kênh',en:'Chat with AI (Qwen) right in the channel'},count:'8 commands'},
  {id:'warping',vi:'War Ping / Backup',en:'War Ping / Backup',icon:'🛡️',desc:{vi:'Gọi người vào war hoặc gọi backup',en:'Call people into a war or call for backup'},count:'13 commands'},
@@ -663,12 +698,8 @@ const HELP_DETAIL={
  ]},
 };
 
-// helpers to slice commands for detail modal
 function sliceForDetail(cat){
- if(cat==='chatbot') return {
-   chatbot: COMMANDS.chatbot.slice(0,8),
-   chatbot_persona: COMMANDS.chatbot.slice(8),
- };
+ if(cat==='chatbot') return { chatbot: COMMANDS.chatbot.slice(0,8), chatbot_persona: COMMANDS.chatbot.slice(8)};
  if(cat==='event') return { event_event: COMMANDS.event.slice(0,7), event_giveaway: COMMANDS.event.slice(7)};
  if(cat==='moderation') return {
    mod_kick: COMMANDS.moderation.slice(0,5),
@@ -684,7 +715,6 @@ function sliceForDetail(cat){
  return {[cat]:COMMANDS[cat]};
 }
 
-// ----- render help cards -----
 function renderHelp(){
  const wrap=document.getElementById('helpCards');
  const countEl=document.getElementById('cardsCount');
@@ -702,7 +732,6 @@ function renderHelp(){
  }).join('');
 }
 
-// ----- filters & deck -----
 const FILTERS=[
  {id:'all',vi:'TẤT CẢ',en:'ALL'},
  {id:'chatbot',vi:'AI CHATBOT',en:'AI CHATBOT'},
@@ -723,9 +752,7 @@ function setFilter(id){active=id;showAll=false;renderDeck();renderFilters();}
 function getFiltered(){
  let pools=[];
  if(active==='all'){
-  Object.entries(COMMANDS).forEach(([cat,arr])=>{
-   arr.forEach(c=>pools.push({...c,cat}));
-  });
+  Object.entries(COMMANDS).forEach(([cat,arr])=>{ arr.forEach(c=>pools.push({...c,cat})); });
   pools.sort((a,b)=>(b.isNew?1:0)-(a.isNew?1:0));
  } else {
   const arr=COMMANDS[active]||[];
@@ -752,22 +779,15 @@ function renderDeck(){
  const isIdle= !isSearch && !isFiltered;
  const hasNew= pools.some(p=>p.isNew);
  let visible;
- if(isIdle && !showAll){
-  visible= hasNew? pools.filter(p=>p.isNew) : pools;
- } else {
-  visible= pools;
- }
+ if(isIdle && !showAll){ visible= hasNew? pools.filter(p=>p.isNew) : pools; }
+ else { visible= pools; }
  if(isIdle && hasNew){
   moreWrap.style.display='flex';
   btn.textContent= showAll
    ? (lang==='vi'?'Ẩn bớt ↑':'Show less ↑')
    : (lang==='vi'?`Xem tất cả lệnh (${pools.length}) ↓`:`View all commands (${pools.length}) ↓`);
- } else {
-  moreWrap.style.display='none';
- }
- const catLabel=(cat)=>{
-  const c=CATS.find(x=>x.id===cat); return c? (lang==='vi'?c.vi:c.en):cat;
- };
+ } else { moreWrap.style.display='none'; }
+ const catLabel=(cat)=>{ const c=CATS.find(x=>x.id===cat); return c? (lang==='vi'?c.vi:c.en):cat; };
  grid.innerHTML=visible.map(p=>`
   <div class="cmd-row">
    <div>
@@ -786,7 +806,6 @@ function renderDeck(){
 document.getElementById('viewMoreBtn').onclick=()=>{showAll=!showAll;renderDeck()};
 document.getElementById('search').addEventListener('input',e=>{query=e.target.value.trim();showAll=false;renderDeck()});
 
-// ----- help modal -----
 function openHelp(cat){
  const detail=HELP_DETAIL[cat];
  const c=CATS.find(x=>x.id===cat);
@@ -803,17 +822,14 @@ function openHelp(cat){
     html+=`<div class="cmd"><code>${item.cmd} ${item.isNew?'<span class="new" style="padding:2px 6px;border-radius:999px;font-size:10px;margin-left:6px">✨ NEW</span>':''}</code><span>${lang==='vi'?item.desc.vi:item.desc.en}${item.perm?` <em style="color:var(--muted2)">(${item.perm})</em>`:''}</span></div>`;
    });
   });
-  if(!g.keys && slices[cat]){}
   html+=`</div>`;
  });
- if(html.includes('group')===false){}
  document.getElementById('mBody').innerHTML=html;
  document.getElementById('helpOverlay').classList.add('open');
 }
 function closeHelp(){document.getElementById('helpOverlay').classList.remove('open')}
 document.getElementById('helpOverlay').addEventListener('click',e=>{if(e.target.id==='helpOverlay')closeHelp()});
 
-// ----- update log -----
 function shouldShowUpdate(){
  const v=localStorage.getItem('nova_hide_update');
  if(!v) return true;
@@ -821,24 +837,17 @@ function shouldShowUpdate(){
 }
 function closeUpdate(fromBtn=false){
  const cb=document.getElementById('hide24');
- if(cb.checked || fromBtn && cb.checked){
-   // for 24h
- }
  if(cb.checked){ localStorage.setItem('nova_hide_update', String(Date.now()+24*60*60*1000)); }
  document.getElementById('updateOverlay').classList.remove('open');
 }
 document.getElementById('updateOverlay').addEventListener('click',e=>{if(e.target.id==='updateOverlay')closeUpdate()});
 
-// ----- scroll reveal & nav -----
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 document.getElementById('menuBtn').onclick=()=>document.getElementById('nav').classList.toggle('open');
 
-// ----- scroll-spy: highlight the nav link for whichever section is actually in view -----
 const navSpyLinks=document.querySelectorAll('.nav-links a[href^="#"]');
-function setActiveNav(id){
- navSpyLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+id));
-}
+function setActiveNav(id){ navSpyLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+id)); }
 const spySections=['home','features','commands'].map(id=>document.getElementById(id)).filter(Boolean);
 const spyObserver=new IntersectionObserver(entries=>{
  let best=null;
@@ -848,7 +857,6 @@ const spyObserver=new IntersectionObserver(entries=>{
 spySections.forEach(s=>spyObserver.observe(s));
 setActiveNav('home');
 
-// ----- card carousel: wheel only hijacks scroll while there's room left, then hands off to the page -----
 const cardsWrap=document.getElementById('helpCards');
 cardsWrap.addEventListener('wheel',e=>{
  if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return;
@@ -861,7 +869,6 @@ cardsWrap.addEventListener('wheel',e=>{
  cardsWrap.scrollLeft+=e.deltaY;
 },{passive:false});
 
-// ----- 3D tilt: feature cards -----
 cardsWrap.addEventListener('mousemove',e=>{
  const hovered=e.target.closest('.card');
  cardsWrap.querySelectorAll('.card').forEach(card=>{
@@ -883,7 +890,6 @@ cardsWrap.addEventListener('mouseleave',()=>{
  cardsWrap.querySelectorAll('.card').forEach(c=>{c.style.transform='';const i=c.querySelector('.icon');if(i)i.style.transform=''});
 });
 
-// ----- 3D tilt: deck command rows -----
 const deckGridEl=document.getElementById('deckGrid');
 if(deckGridEl){
  deckGridEl.addEventListener('mousemove',e=>{
@@ -900,7 +906,6 @@ if(deckGridEl){
  deckGridEl.addEventListener('mouseleave',()=>{deckGridEl.querySelectorAll('.cmd-row').forEach(r=>r.style.transform='')});
 }
 
-// ----- 3D tilt: hero visual panel + avatar parallax depth -----
 const heroSection=document.getElementById('home');
 const heroVisual=document.querySelector('.hero-visual');
 const heroAvatarBig=document.querySelector('.avatar-big');
@@ -915,7 +920,6 @@ if(heroSection&&heroVisual){
  heroSection.addEventListener('mouseleave',()=>{heroVisual.style.transform='';if(heroAvatarBig) heroAvatarBig.style.transform='translate(-50%,-50%)'});
 }
 
-// ----- 3D tilt: brand logos (nav + footer) -----
 document.querySelectorAll('.brand img, .footer-avatar').forEach(img=>{
  const holder=img.closest('.brand')||img;
  holder.addEventListener('mousemove',e=>{
@@ -926,7 +930,6 @@ document.querySelectorAll('.brand img, .footer-avatar').forEach(img=>{
  holder.addEventListener('mouseleave',()=>{img.style.transform=''});
 });
 
-// ----- 3D tilt: CTA buttons -----
 document.querySelectorAll('.btn-lime').forEach(btn=>{
  btn.addEventListener('mousemove',e=>{
   const r=btn.getBoundingClientRect();
@@ -936,7 +939,6 @@ document.querySelectorAll('.btn-lime').forEach(btn=>{
  btn.addEventListener('mouseleave',()=>{btn.style.transform=''});
 });
 
-// ----- avatar load (inline favicon/avatar fallback) -----
 function setAvatars(){
  const hero=document.getElementById('heroAvatar');
  const navA=document.getElementById('navAvatar');
@@ -948,7 +950,6 @@ function setAvatars(){
 }
 setAvatars();
 
-// ----- loader -----
 function runLoader(onDone){
  const bar=document.getElementById('loaderBar'),pct=document.getElementById('loaderPct'),loader=document.getElementById('loader');
  const MIN=1800,t0=performance.now();
@@ -972,13 +973,12 @@ runLoader(()=>{ if(shouldShowUpdate()) document.getElementById('updateOverlay').
 applyLang();
 renderHelp();renderFilters();renderDeck();
 
-// ----- 3D background solar system: JS-driven true 3D orbit -----
+// ----- 3D background solar system -----
 (function(){
  const orb=document.getElementById('bgOrb'),holder=document.getElementById('bg3dHolder'),stage=document.getElementById('bg3d');
  if(!orb||!holder||!stage) return;
  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
- // Đọc --S bằng JS (getComputedStyle không trả về giá trị của clamp())
  function readS(){
   const w=window.innerWidth;
   return w>=960 ? Math.max(280,Math.min(400,w*0.31)) : Math.max(200,Math.min(300,w*0.60));
