@@ -22,7 +22,6 @@ a{color:inherit;text-decoration:none}
 .mono{font-family:"JetBrains Mono",monospace}
 .display{font-family:"Fraunces",serif;letter-spacing:-.04em;line-height:.85}
 
-/* loader */
 #loader{position:fixed;inset:0;z-index:9999;background:#07070A;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;transition:opacity .7s ease,visibility .7s,transform .7s cubic-bezier(.6,0,.4,1)}
 #loader.out{opacity:0;visibility:hidden;pointer-events:none;transform:perspective(800px) rotateX(20deg) scale(.86) translateY(-14px)}
 .loader-dots{display:flex;gap:36px;margin-bottom:60px}
@@ -41,7 +40,6 @@ a{color:inherit;text-decoration:none}
 .loader-pct{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.25em;color:var(--muted2);margin-top:14px}
 @media(prefers-reduced-motion:reduce){@keyframes dotFade{0%,70%,100%{opacity:.15}25%,40%{opacity:1}}.loader-dots i{animation-name:dotFade}.loader-title .lt{animation:none;opacity:1;transform:none}#loader{transition:opacity .4s ease,visibility .4s}#loader.out{transform:none}}
 
-/* nav */
 .nav-wrap{position:sticky;top:14px;z-index:50;padding:0 18px}
 .nav{max-width:1240px;margin:0 auto;background:rgba(18,18,21,.84);backdrop-filter:blur(16px) saturate(1.2);border:1px solid rgba(236,231,217,.14);border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:8px 10px;gap:10px}
 .nav-left{display:flex;align-items:center;gap:18px}
@@ -59,7 +57,6 @@ a{color:inherit;text-decoration:none}
 .btn-lime:active{transform:translateY(3px);box-shadow:0 3px 0 #BBB6A6}
 .menu-btn{display:none;background:transparent;border:1px solid rgba(255,255,255,.12);color:#fff;padding:8px 10px;border-radius:8px}
 
-/* hero */
 .hero{max-width:1240px;margin:22px auto 0;padding:18px 18px 0;display:grid;grid-template-columns:1.25fr .85fr;gap:18px}
 .hero-card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:18px;padding:28px;position:relative;overflow:hidden}
 .hero-card::before{content:"";position:absolute;inset:-1px;background:radial-gradient(600px 300px at 20% 0%,rgba(236,231,217,.18),transparent 60%),radial-gradient(700px 400px at 90% 30%,rgba(255,255,255,.05),transparent 60%);pointer-events:none}
@@ -88,7 +85,6 @@ a{color:inherit;text-decoration:none}
 .mini b{font-size:12px;display:flex;align-items:center;gap:6px}
 .mini span{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted)}
 
-/* help menu */
 .section{max-width:1240px;margin:26px auto 0;padding:0 18px}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}
 .section-head h2{font-family:"Fraunces",serif;font-size:28px;letter-spacing:-.04em;margin:0}
@@ -110,7 +106,6 @@ a{color:inherit;text-decoration:none}
 .card-foot{margin-top:14px;display:flex;align-items:center;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;color:var(--muted2)}
 .card-foot span:last-child{color:var(--lime)}
 
-/* deck */
 .deck{border:1px solid var(--line);border-radius:18px;background:rgba(16,16,18,.6);backdrop-filter:blur(10px);overflow:hidden}
 .deck-head{padding:16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .deck-head h2{font-family:"Fraunces",serif;font-size:26px;margin:0;letter-spacing:-.04em}
@@ -135,7 +130,6 @@ a{color:inherit;text-decoration:none}
 .view-more button{border:1px solid rgba(236,231,217,.25);background:rgba(236,231,217,.08);color:var(--lime);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;padding:10px 16px;border-radius:999px;cursor:pointer}
 .empty{padding:28px;text-align:center;color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:12px}
 
-/* modals */
 .overlay{position:fixed;inset:0;background:rgba(5,5,7,.7);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:80;padding:18px}
 .overlay.open{display:flex}
 .modal{width:min(760px,100%);max-height:88vh;overflow:auto;background:linear-gradient(180deg,#17171A,#0D0D0F);border:1px solid rgba(236,231,217,.18);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.16,1,.3,1)}
@@ -155,7 +149,6 @@ a{color:inherit;text-decoration:none}
 .check{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
 .check input{accent-color:var(--lime)}
 
-/* footer */
 .site-footer{max-width:1240px;margin:40px auto 0;padding:40px 18px 24px}
 .footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:26px}
 .footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -167,11 +160,9 @@ a{color:inherit;text-decoration:none}
 .footer-col a:hover{color:var(--text)}
 .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);color:var(--muted2);font-family:"JetBrains Mono",monospace;font-size:11px}
 
-/* reveal */
 .reveal{opacity:0;transform:perspective(900px) translateY(18px) rotateX(5deg);transform-origin:50% 100%;transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
 
-/* responsive */
 @media(max-width:980px){
   .hero{grid-template-columns:1fr}
   .card{flex-basis:68vw}
@@ -187,18 +178,16 @@ a{color:inherit;text-decoration:none}
   .footer-top{grid-template-columns:1fr}
 }
 
-/* ===================================================================
-   3D BACKGROUND — SOLAR SYSTEM
-   Fix chính:
-   1) KHÔNG dùng filter:brightness() trên các mặt — dùng màu nền khác
-      nhau để tránh browser flatten 3D context.
-   2) perspective NGẮN (≈1.8× cạnh cube) để phối cảnh mạnh.
-   3) Nghiêng rotateX(45deg) để thấy rõ 3 mặt → khối lập phương nổi.
-   =================================================================== */
+/* ==================================================================
+   FIX 3D: 
+   - KHÔNG có overflow:hidden trên #bg3d (thủ phạm flatten)
+   - KHÔNG có transform-style: preserve-3d trên #bg3dHolder
+   - .bg-core và .pl tự quản lý perspective cho con của mình
+   - Faces dùng MÀU RIÊNG, không dùng filter/border/inset-shadow
+   ================================================================== */
 #bg3d{
   position:fixed;inset:0;z-index:-1;pointer-events:none;
-  overflow:hidden;
-  perspective:1400px;
+  /* KHÔNG dùng overflow:hidden ở đây */
   --S:clamp(200px,60vw,300px);
 }
 @media(min-width:960px){#bg3d{--S:clamp(280px,31vw,400px)}}
@@ -206,7 +195,7 @@ a{color:inherit;text-decoration:none}
 #bg3dHolder{
   position:absolute;left:50%;top:40%;
   width:0;height:0;
-  transform-style:preserve-3d;
+  /* KHÔNG có transform-style: preserve-3d ở đây */
 }
 @media(min-width:960px){#bg3dHolder{left:66%;top:48%}}
 
@@ -214,37 +203,38 @@ a{color:inherit;text-decoration:none}
   position:absolute;left:50%;top:50%;
   width:calc(var(--S)*2.6);height:calc(var(--S)*2.6);
   margin:calc(var(--S)*-1.3) 0 0 calc(var(--S)*-1.3);
-  background:radial-gradient(circle,rgba(236,231,217,.14),transparent 62%);
+  background:radial-gradient(circle,rgba(236,231,217,.15),transparent 62%);
 }
 
-/* ---------- MẶT TRỜI — khối lập phương 3D ---------- */
+/* ---------- MẶT TRỜI ---------- */
 .bg-core{
   position:absolute;left:50%;top:50%;
   width:calc(var(--S)*.22);height:calc(var(--S)*.22);
   margin:calc(var(--S)*-.11) 0 0 calc(var(--S)*-.11);
-  perspective:calc(var(--S)*.42);   /* perspective gần → phối cảnh rõ */
+  perspective:calc(var(--S)*.45);   /* ~2× cube size → phối cảnh mạnh */
 }
 .bg-core .sun-cube{
-  position:absolute;inset:0;
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
   transform-style:preserve-3d;
   animation:spinSun 6s linear infinite;
 }
 .bg-core .face{
-  position:absolute;inset:0;
-  border:1px solid rgba(180,150,80,.35);
-  box-shadow:inset 0 0 24px rgba(255,245,210,.55);
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  /* KHÔNG border, KHÔNG box-shadow, KHÔNG filter */
 }
-/* 6 mặt dùng MÀU KHÁC NHAU (không dùng filter) */
-.bg-core .face.f-front {transform:translateZ(calc(var(--S)*.11));      background:#fdf4d4}
-.bg-core .face.f-back  {transform:rotateY(180deg) translateZ(calc(var(--S)*.11)); background:#5c4820}
-.bg-core .face.f-right {transform:rotateY(90deg)  translateZ(calc(var(--S)*.11)); background:#e8d298}
-.bg-core .face.f-left  {transform:rotateY(-90deg) translateZ(calc(var(--S)*.11)); background:#b89e58}
-.bg-core .face.f-top   {transform:rotateX(90deg)  translateZ(calc(var(--S)*.11)); background:#fffce8}
-.bg-core .face.f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--S)*.11)); background:#4a3618}
+/* 6 MÀU KHÁC NHAU — không nhầm lẫn giữa các mặt */
+.bg-core .f-front {transform:translateZ(calc(var(--S)*.11));                          background:#fdf4d4}
+.bg-core .f-back  {transform:rotateY(180deg) translateZ(calc(var(--S)*.11));          background:#3a2810}
+.bg-core .f-right {transform:rotateY(90deg)  translateZ(calc(var(--S)*.11));          background:#e0bc6a}
+.bg-core .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--S)*.11));          background:#8a6a28}
+.bg-core .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--S)*.11));          background:#fff8b8}
+.bg-core .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--S)*.11));          background:#20160a}
 
 @keyframes spinSun{
-  from{transform:rotateX(45deg) rotateY(0deg)}
-  to  {transform:rotateX(45deg) rotateY(360deg)}
+  from{transform:rotateX(38deg) rotateY(0deg)}
+  to  {transform:rotateX(38deg) rotateY(360deg)}
 }
 
 /* ---------- QUỸ ĐẠO + HÀNH TINH ---------- */
@@ -252,51 +242,51 @@ a{color:inherit;text-decoration:none}
   position:absolute;left:50%;top:50%;
   width:0;height:0;
   transform-style:preserve-3d;
-  will-change:transform;
 }
 .bg-orb .ring{
   position:absolute;left:50%;top:50%;
   width:calc(var(--S)*var(--k));height:calc(var(--S)*var(--k));
   margin:calc(var(--S)*var(--k)*-.5) 0 0 calc(var(--S)*var(--k)*-.5);
   border-radius:50%;
-  border:1px solid rgba(236,231,217,.22);
+  border:1px solid rgba(236,231,217,.20);
 }
 .bg-orb .pl{
   position:absolute;left:50%;top:50%;
   width:var(--pd);height:var(--pd);
   margin:calc(var(--pd)*-.5) 0 0 calc(var(--pd)*-.5);
-  perspective:calc(var(--pd)*1.8);   /* perspective gần */
+  perspective:calc(var(--pd)*2);   /* perspective riêng cho mỗi hành tinh */
 }
 .bg-orb .cube{
-  position:absolute;inset:0;
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
   transform-style:preserve-3d;
   animation:spinSelf var(--spin) linear infinite;
 }
-/* 6 mặt hành tinh — dùng màu var(--c1) + MÀU overlay khác nhau, không filter */
 .bg-orb .face{
-  position:absolute;inset:0;
-  background:var(--c1);
-  border:1px solid rgba(0,0,0,.22);
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  /* KHÔNG filter — dùng color-mix để tạo shade */
 }
-.bg-orb .face.f-front {transform:translateZ(calc(var(--pd)*.5));      filter:brightness(1.05)}
-.bg-orb .face.f-back  {transform:rotateY(180deg) translateZ(calc(var(--pd)*.5)); background:#111}
-.bg-orb .face.f-right {transform:rotateY(90deg)  translateZ(calc(var(--pd)*.5)); filter:brightness(.6)}
-.bg-orb .face.f-left  {transform:rotateY(-90deg) translateZ(calc(var(--pd)*.5)); filter:brightness(.4)}
-.bg-orb .face.f-top   {transform:rotateX(90deg)  translateZ(calc(var(--pd)*.5)); filter:brightness(1.5)}
-.bg-orb .face.f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--pd)*.5)); background:#000}
+/* 6 mặt hành tinh — dùng color-mix thay cho filter */
+.bg-orb .f-front {transform:translateZ(calc(var(--pd)*.5));                        background:var(--c1)}
+.bg-orb .f-back  {transform:rotateY(180deg) translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 65%)}
+.bg-orb .f-right {transform:rotateY(90deg)  translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 30%)}
+.bg-orb .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 50%)}
+.bg-orb .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),white 35%)}
+.bg-orb .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--pd)*.5));        background:color-mix(in srgb,var(--c1),black 75%)}
 
 @keyframes spinSelf{
-  from{transform:rotateX(45deg) rotateY(0deg)}
-  to  {transform:rotateX(45deg) rotateY(360deg)}
+  from{transform:rotateX(38deg) rotateY(0deg)}
+  to  {transform:rotateX(38deg) rotateY(360deg)}
 }
 
 /* Kích thước + màu từng hành tinh */
-.bg-orb .p1{--pd:max(10px,calc(var(--S)*.04));--c1:#d9d3c4;--spin:1.8s}
-.bg-orb .p2{--pd:max(12px,calc(var(--S)*.05));--c1:#e8d6a4;--spin:2.2s}
-.bg-orb .p3{--pd:max(13px,calc(var(--S)*.055));--c1:#9fc0dd;--spin:2.6s}
-.bg-orb .p4{--pd:max(11px,calc(var(--S)*.045));--c1:#c97d58;--spin:2.0s}
-.bg-orb .p5{--pd:max(18px,calc(var(--S)*.10));--c1:#d9b57f;--spin:3.2s}
-.bg-orb .p6{--pd:max(15px,calc(var(--S)*.08));--c1:#d6c187;--spin:2.8s}
+.bg-orb .p1{--pd:max(14px,calc(var(--S)*.05));--c1:#d9d3c4;--spin:1.8s}
+.bg-orb .p2{--pd:max(16px,calc(var(--S)*.06));--c1:#e8d6a4;--spin:2.2s}
+.bg-orb .p3{--pd:max(17px,calc(var(--S)*.065));--c1:#9fc0dd;--spin:2.6s}
+.bg-orb .p4{--pd:max(15px,calc(var(--S)*.055));--c1:#c97d58;--spin:2.0s}
+.bg-orb .p5{--pd:max(22px,calc(var(--S)*.11));--c1:#d9b57f;--spin:3.2s}
+.bg-orb .p6{--pd:max(19px,calc(var(--S)*.09));--c1:#d6c187;--spin:2.8s}
 
 .bg-orb .p6>.ring6{
   position:absolute;left:-55%;right:-55%;top:50%;height:42%;margin-top:-21%;
@@ -308,7 +298,6 @@ a{color:inherit;text-decoration:none}
   width:3px;height:3px;margin:-1.5px 0 0 -1.5px;
   border-radius:50%;background:#e8e4da;
   box-shadow:0 0 5px rgba(232,228,218,.7);
-  will-change:transform;
 }
 @media(prefers-reduced-motion:reduce){
   .bg-core .sun-cube{animation:none}
@@ -494,7 +483,6 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <script>
-// ----- i18n -----
 const I18N={
  vi:{
   nav_home:"TRANG CHỦ",nav_features:"TÍNH NĂNG",nav_cmd:"LỆNH",
@@ -973,7 +961,7 @@ runLoader(()=>{ if(shouldShowUpdate()) document.getElementById('updateOverlay').
 applyLang();
 renderHelp();renderFilters();renderDeck();
 
-// ----- 3D background solar system -----
+/* ============ 3D background solar system ============ */
 (function(){
  const orb=document.getElementById('bgOrb'),holder=document.getElementById('bg3dHolder'),stage=document.getElementById('bg3d');
  if(!orb||!holder||!stage) return;
